@@ -29,23 +29,13 @@ export class VersionCommand implements Command {
   }
 
   private readVersion() {
-    try {
-      const file = fs.readFileSync(this.filePath, 'utf8');
-      const parsed = JSON.parse(file);
-      if (!isPackageJSONConfig(parsed)) {
-        throw new Error('Failed to parse json content.');
-      }
-
-      return parsed.version;
-    } catch (error: unknown) {
-      console.error('Failed to read package.json');
-
-      if (error instanceof Error) {
-        console.error(error.message);
-      }
-
-      return undefined;
+    const file = fs.readFileSync(this.filePath, 'utf8');
+    const parsed = JSON.parse(file);
+    if (!isPackageJSONConfig(parsed)) {
+      throw new Error('Failed to parse json content.');
     }
+
+    return parsed.version;
   }
 
   public async execute(..._args: string[]): Promise<void> {
