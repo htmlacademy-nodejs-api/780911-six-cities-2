@@ -1,7 +1,7 @@
 import fs from 'node:fs';
+import path from 'node:path';
 
 import { Command } from './command.interface.js';
-import path from 'node:path';
 
 type PackageJSONConfig = {
   version: string;
