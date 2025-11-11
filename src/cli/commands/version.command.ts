@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import chalk from 'chalk';
 
 import { Command } from './command.interface.js';
 
@@ -45,12 +46,12 @@ export class VersionCommand implements Command {
         throw new Error('no package file');
       }
 
-      console.log(version);
+      console.log(chalk.blue(version));
     } catch (error: unknown) {
-      console.error('Failed to read version from package.json');
+      console.error(chalk.red('Failed to read version from package.json'));
 
       if (error instanceof Error) {
-        console.error(error.message);
+        console.error(chalk.red(error.message));
       }
     }
   }
