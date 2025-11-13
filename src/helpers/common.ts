@@ -32,3 +32,6 @@ export const getDaysAgo = (daysAgo: number): Date => {
 
   return nDaysAgo;
 };
+
+export const isNumber = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isFinite(value);
