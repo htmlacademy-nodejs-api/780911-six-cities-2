@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-import { generateErrorMessage } from '../../helpers/generateErrorMessage.js';
+import { generateErrorMessage } from '../../helpers/index.js';
+import { OfferGenerator } from '../../lib/OfferGenerator/index.js';
 import { Command } from './command.interface.js';
+import { MockServerData } from '../../types/mockServerData.js';
 
 export class GenerateCommand implements Command {
-  private rawData: string = '';
+  private rawData = {} as MockServerData;
   private static readonly MOCK_API_URL = 'http://localhost:4000/api';
 
   public getName() {
@@ -33,16 +35,17 @@ export class GenerateCommand implements Command {
       const offerAmount = Number.parseInt(amount, 10);
 
       await this.getData(url);
-      console.log({ rawData: this.rawData });
-      console.log({ offerAmount, outputPath, url });
+      const offerGenerator = new OfferGenerator(this.rawData);
+      const offer = offerGenerator.generate();
+      console.log({ offerAmount, outputPath });
+      console.log({ offer });
     } catch (error: unknown) {
       generateErrorMessage(error, 'Failed to generate mock TSV file');
     }
   }
 }
 
-//TODO:  generate from the mock api data a offer
 //TODO: generate n offers
-// pass args to generate offers
-
+//TODO: pass args to generate offers
+//TODO: error handling + try catch guarding, errors catchers
 //TODO: update import command call to work with big files
