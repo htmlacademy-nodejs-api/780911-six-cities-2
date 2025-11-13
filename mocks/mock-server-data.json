@@ -1,213 +1,201 @@
 {
-  "offers": [
-    {
-      "title": "Charming Studio near Eiffel Tower",
-      "description": "A cozy apartment located in the heart of Paris with stunning views of the Eiffel Tower. Perfect for couples and solo travelers.",
-      "publication_date": "2025-11-01T00:00:00.000Z",
-      "city": "Paris",
-      "preview_image": "/images/paris-studio.jpg",
-      "property_photos": [
+  "api": {
+    "descriptions": [
+      "A cozy apartment located in the heart with stunning views of the Eiffel Tower. Perfect for couples and solo travelers.",
+      "Modern loft apartment with high ceilings and plenty of light. Great for remote work or a city break.",
+      "Stay in a beautiful 3-story townhouse close to the iconic Grand Place. Ideal for families and groups.",
+      "Enjoy your stay in a scenic apartment overlooking canals. Walkable distance to cafes and museums.",
+      "Comfortable and modern hotel room near the city center. Includes breakfast and daily cleaning service.",
+      "Elegant hotel suite featuring spacious interiors and top amenities. Perfect for business trips or luxury getaways.",
+      "Affordable private room in a shared flat near city attractions. Includes workspace and washer access.",
+      "Spacious family home with private garden and modern kitchen. Close to public transport and schools."
+    ],
+    "titles": [
+      "Charming Studio near central railway station",
+      "Spacious Loft in historic center",
+      "Elegant Townhouse near exebition center",
+      "Apartment in heart of the city",
+      "Modern Hotel Room",
+      "Luxury Suite in Center",
+      "Bright Room in Shared Flat",
+      "Family Home with Garden"
+    ],
+    "publication_date": [
+      "2025-11-01T00:00:00.000Z",
+      "2025-10-18T00:00:00.000Z",
+      "2025-09-25T00:00:00.000Z",
+      "2025-10-05T00:00:00.000Z",
+      "2025-11-10T00:00:00.000Z",
+      "2025-09-30T00:00:00.000Z",
+      "2025-08-22T00:00:00.000Z",
+      "2025-07-15T00:00:00.000Z"
+    ],
+    "cities": [
+      "Paris",
+      "Cologne",
+      "Brussels",
+      "Amsterdam",
+      "Hamburg",
+      "Dusseldorf"
+    ],
+    "preview_images": [
+      "/images/paris-studio.jpg",
+      "/images/cologne-loft.jpg",
+      "/images/brussels-townhouse.jpg",
+      "/images/amsterdam-canal.jpg",
+      "/images/hamburg-hotel.jpg",
+      "/images/dusseldorf-suite.jpg",
+      "/images/brussels-room.jpg",
+      "/images/hamburg-house.jpg"
+    ],
+    "property_photos": [
+      [
         "/images/paris-studio-1.jpg",
         "/images/paris-studio-2.jpg",
         "/images/paris-studio-3.jpg"
       ],
-      "premium_flag": true,
-      "rating": 4.8,
-      "property_type": "apartment",
-      "number_of_rooms": 2,
-      "number_of_guests": 3,
-      "rental_cost": 180,
-      "features": ["Air conditioning", "Laptop", "Towels", "Fridge"],
-      "author": {
+      ["/images/cologne-loft-1.jpg", "/images/cologne-loft-2.jpg"],
+      [
+        "/images/brussels-townhouse-1.jpg",
+        "/images/brussels-townhouse-2.jpg",
+        "/images/brussels-townhouse-3.jpg"
+      ],
+      ["/images/amsterdam-canal-1.jpg", "/images/amsterdam-canal-2.jpg"],
+      ["/images/hamburg-hotel-1.jpg", "/images/hamburg-hotel-2.jpg"],
+      [
+        "/images/dusseldorf-suite-1.jpg",
+        "/images/dusseldorf-suite-2.jpg",
+        "/images/dusseldorf-suite-3.jpg"
+      ],
+      ["/images/brussels-room-1.jpg"],
+      [
+        "/images/hamburg-house-1.jpg",
+        "/images/hamburg-house-2.jpg",
+        "/images/hamburg-house-3.jpg"
+      ]
+    ],
+    "property_types": ["apartment", "house", "hotel", "room"],
+    "features": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop",
+      "friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "authors": [
+      {
         "name": "Sophie Martin",
         "email": "sophie.martin@example.com",
         "image": "/avatars/sophie.jpg",
         "password": "securepassword123"
       },
-      "number_of_comments": 42,
-      "coordinates": [48.85661, 2.351499]
-    },
-    {
-      "title": "Spacious Loft in Central Cologne",
-      "description": "Modern loft apartment with high ceilings and plenty of light. Great for remote work or a city break.",
-      "publication_date": "2025-10-18T00:00:00.000Z",
-      "city": "Cologne",
-      "preview_image": "/images/cologne-loft.jpg",
-      "property_photos": [
-        "/images/cologne-loft-1.jpg",
-        "/images/cologne-loft-2.jpg"
-      ],
-      "premium_flag": false,
-      "rating": 4.5,
-      "property_type": "apartment",
-      "number_of_rooms": 3,
-      "number_of_guests": 4,
-      "rental_cost": 150,
-      "features": ["friendly workspace", "Washer", "Fridge"],
-      "author": {
+      {
         "name": "Lukas Weber",
         "email": "lukas.weber@example.com",
         "image": "/avatars/lukas.jpg",
         "password": "password456"
       },
-      "number_of_comments": 27,
-      "coordinates": [50.938361, 6.959974]
-    },
-    {
-      "title": "Elegant Townhouse near Grand Place",
-      "description": "Stay in a beautiful 3-story townhouse close to the iconic Grand Place in Brussels. Ideal for families and groups.",
-      "publication_date": "2025-09-25T00:00:00.000Z",
-      "city": "Brussels",
-      "preview_image": "/images/brussels-townhouse.jpg",
-      "property_photos": [
-        "/images/brussels-townhouse-1.jpg",
-        "/images/brussels-townhouse-2.jpg",
-        "/images/brussels-townhouse-3.jpg"
-      ],
-      "premium_flag": true,
-      "rating": 4.9,
-      "property_type": "house",
-      "number_of_rooms": 5,
-      "number_of_guests": 6,
-      "rental_cost": 320,
-      "features": ["Breakfast", "Washer", "Towels", "Fridge", "Baby seat"],
-      "author": {
+      {
         "name": "Marie Dupont",
         "email": "marie.dupont@example.com",
         "image": "/avatars/marie.jpg",
         "password": "securepass321"
       },
-      "number_of_comments": 61,
-      "coordinates": [50.846557, 4.351697]
-    },
-    {
-      "title": "Canal-Side Apartment in Amsterdam",
-      "description": "Enjoy your stay in a scenic apartment overlooking Amsterdam’s canals. Walkable distance to cafes and museums.",
-      "publication_date": "2025-10-05T00:00:00.000Z",
-      "city": "Amsterdam",
-      "preview_image": "/images/amsterdam-canal.jpg",
-      "property_photos": [
-        "/images/amsterdam-canal-1.jpg",
-        "/images/amsterdam-canal-2.jpg"
-      ],
-      "premium_flag": false,
-      "rating": 4.3,
-      "property_type": "apartment",
-      "number_of_rooms": 2,
-      "number_of_guests": 3,
-      "rental_cost": 200,
-      "features": ["Towels", "Fridge", "friendly workspace"],
-      "author": {
+      {
         "name": "Jan de Vries",
         "email": "jan.devries@example.com",
         "image": "/avatars/jan.jpg",
         "password": "amsterdam123"
       },
-      "number_of_comments": 18,
-      "coordinates": [52.370216, 4.895168]
-    },
-    {
-      "title": "Modern Hotel Room in Hamburg",
-      "description": "Comfortable and modern hotel room near the city center. Includes breakfast and daily cleaning service.",
-      "publication_date": "2025-11-10T00:00:00.000Z",
-      "city": "Hamburg",
-      "preview_image": "/images/hamburg-hotel.jpg",
-      "property_photos": [
-        "/images/hamburg-hotel-1.jpg",
-        "/images/hamburg-hotel-2.jpg"
-      ],
-      "premium_flag": true,
-      "rating": 4.7,
-      "property_type": "hotel",
-      "number_of_rooms": 1,
-      "number_of_guests": 2,
-      "rental_cost": 160,
-      "features": ["Breakfast", "Air conditioning", "Towels"],
-      "author": {
+      {
         "name": "Katrin Müller",
         "email": "katrin.mueller@example.com",
         "image": "/avatars/katrin.jpg",
         "password": "hotelpass789"
       },
-      "number_of_comments": 30,
-      "coordinates": [53.550341, 10.000654]
-    },
-    {
-      "title": "Luxury Suite in Dusseldorf Center",
-      "description": "Elegant hotel suite featuring spacious interiors and top amenities. Perfect for business trips or luxury getaways.",
-      "publication_date": "2025-09-30T00:00:00.000Z",
-      "city": "Dusseldorf",
-      "preview_image": "/images/dusseldorf-suite.jpg",
-      "property_photos": [
-        "/images/dusseldorf-suite-1.jpg",
-        "/images/dusseldorf-suite-2.jpg",
-        "/images/dusseldorf-suite-3.jpg"
-      ],
-      "premium_flag": true,
-      "rating": 5,
-      "property_type": "hotel",
-      "number_of_rooms": 2,
-      "number_of_guests": 4,
-      "rental_cost": 420,
-      "features": ["Breakfast", "Air conditioning", "Laptop", "Towels"],
-      "author": {
+      {
         "name": "Sebastian Koch",
         "email": "sebastian.koch@example.com",
         "image": "/avatars/sebastian.jpg",
         "password": "luxsuite999"
       },
-      "number_of_comments": 54,
-      "coordinates": [51.225402, 6.776314]
-    },
-    {
-      "title": "Bright Room in Shared Flat – Brussels",
-      "description": "Affordable private room in a shared flat near city attractions. Includes workspace and washer access.",
-      "publication_date": "2025-08-22T00:00:00.000Z",
-      "city": "Brussels",
-      "preview_image": "/images/brussels-room.jpg",
-      "property_photos": ["/images/brussels-room-1.jpg"],
-      "premium_flag": false,
-      "rating": 4.1,
-      "property_type": "room",
-      "number_of_rooms": 1,
-      "number_of_guests": 1,
-      "rental_cost": 90,
-      "features": ["friendly workspace", "Washer", "Fridge"],
-      "author": {
+      {
         "name": "Thomas Laurent",
         "email": "thomas.laurent@example.com",
         "image": "/avatars/thomas.jpg",
         "password": "flatroom123"
       },
-      "number_of_comments": 12,
-      "coordinates": [50.846557, 4.351697]
-    },
-    {
-      "title": "Family Home with Garden – Hamburg",
-      "description": "Spacious family home with private garden and modern kitchen. Close to public transport and schools.",
-      "publication_date": "2025-07-15T00:00:00.000Z",
-      "city": "Hamburg",
-      "preview_image": "/images/hamburg-house.jpg",
-      "property_photos": [
-        "/images/hamburg-house-1.jpg",
-        "/images/hamburg-house-2.jpg",
-        "/images/hamburg-house-3.jpg"
-      ],
-      "premium_flag": false,
-      "rating": 4.6,
-      "property_type": "house",
-      "number_of_rooms": 6,
-      "number_of_guests": 8,
-      "rental_cost": 290,
-      "features": ["Baby seat", "Washer", "Towels", "Fridge"],
-      "author": {
+      {
         "name": "Anna Schmidt",
         "email": "anna.schmidt@example.com",
         "image": "/avatars/anna.jpg",
         "password": "familyhome456"
+      }
+    ],
+    "coordinates": [
+      {
+        "city": "Paris",
+        "coordinates": [
+          [48.85661, 2.351499],
+          [48.8601, 2.3335],
+          [48.8534, 2.3488],
+          [48.8649, 2.3522],
+          [48.8493, 2.3701]
+        ]
       },
-      "number_of_comments": 33,
-      "coordinates": [53.550341, 10.000654]
-    }
-  ]
+      {
+        "city": "Cologne",
+        "coordinates": [
+          [50.938361, 6.959974],
+          [50.9408, 6.9572],
+          [50.9365, 6.9679],
+          [50.9432, 6.9497],
+          [50.9341, 6.9724]
+        ]
+      },
+      {
+        "city": "Brussels",
+        "coordinates": [
+          [50.846557, 4.351697],
+          [50.8492, 4.3563],
+          [50.8439, 4.3478],
+          [50.8504, 4.3589],
+          [50.8417, 4.3541]
+        ]
+      },
+      {
+        "city": "Amsterdam",
+        "coordinates": [
+          [52.370216, 4.895168],
+          [52.3728, 4.9011],
+          [52.3667, 4.8894],
+          [52.3742, 4.9125],
+          [52.3685, 4.8832]
+        ]
+      },
+      {
+        "city": "Hamburg",
+        "coordinates": [
+          [53.550341, 10.000654],
+          [53.5539, 9.9947],
+          [53.5481, 10.0062],
+          [53.5567, 9.9889],
+          [53.5432, 10.0115]
+        ]
+      },
+      {
+        "city": "Dusseldorf",
+        "coordinates": [
+          [51.225402, 6.776314],
+          [51.2279, 6.7812],
+          [51.2221, 6.7718],
+          [51.2293, 6.7857],
+          [51.2198, 6.7674]
+        ]
+      }
+    ]
+  }
 }
