@@ -1,3 +1,5 @@
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import chalk from 'chalk';
 
 export const generateErrorMessage = (error: unknown, message: string) => {
@@ -90,3 +92,6 @@ export const valueToTSVString = (value: unknown) => {
 
   return value as string;
 };
+
+export const getCurrentDirectory = (path: URL | string) =>
+  dirname(fileURLToPath(path));
