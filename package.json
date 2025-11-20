@@ -10,6 +10,7 @@
   "main": "main.js",
   "scripts": {
     "start": "npm run build && node ./dist/main.js",
+    "start:dev": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standart",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
@@ -18,12 +19,14 @@
     "start:mock-api": "npx json-server ./mocks/mock-server-data.json --port 4000"
   },
   "devDependencies": {
+    "@types/convict-format-with-validator": "^6.0.6",
     "@types/node": "18.17.17",
     "@types/pino": "^7.0.5",
     "@typescript-eslint/eslint-plugin": "6.7.0",
     "@typescript-eslint/parser": "6.7.0",
     "eslint": "8.49.0",
     "eslint-config-htmlacademy": "9.1.1",
+    "pino-pretty": "^10.3.1",
     "rimraf": "5.0.1",
     "ts-node": "10.9.1",
     "tslib": "^2.8.1",
@@ -37,11 +40,12 @@
   "dependencies": {
     "axios": "^1.13.2",
     "chalk": "^5.6.2",
+    "convict": "^6.2.4",
+    "convict-format-with-validator": "^6.2.0",
     "dotenv": "^17.2.3",
     "inversify": "^7.10.4",
     "json-server": "^0.17.3",
     "pino": "^8.15.1",
-    "pino-pretty": "^13.1.2",
     "reflect-metadata": "^0.2.2"
   }
 }
