@@ -8,20 +8,30 @@ import {
 } from '../../helpers/common.js';
 import { MockServerData } from '../../types/mockServerData.js';
 
-const FIRST_WEEK_DAY = 1;
-const LAST_WEEK_DAY = 7;
+const enum WeekDay {
+  First = 1,
+  Last = 7,
+}
 
-const MIN_ROOMS = 1;
-const MAX_ROOMS = 8;
+const enum Rooms {
+  Min = 1,
+  Max = 8,
+}
 
-const MIN_RATING = 1;
-const MAX_RATING = 5;
+const enum Rating {
+  Min = 1,
+  Max = 5,
+}
 
-const MIN_GUESTS = 1;
-const MAX_GUESTS = 10;
+const enum Guests {
+  Min = 1,
+  Max = 10,
+}
 
-const MIN_RENTAL_COST = 100;
-const MAX_RENTAL_COST = 100000;
+const enum RentalCost {
+  Min = 100,
+  Max = 100000,
+}
 
 /**
  * Class responsible for generating mock `Offer` objects
@@ -38,16 +48,16 @@ export class OfferGenerator implements OfferGeneratorInterface {
       title: getRandomItem(this.mockData.titles),
       description: getRandomItem(this.mockData.descriptions),
       publicationDate: getDaysAgo(
-        generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY)
+        generateRandomValue(WeekDay.First, WeekDay.Last)
       ),
       city,
       previewImage: getRandomItem(this.mockData.preview_images),
       propertyPhotos: getRandomItem(this.mockData.property_photos),
-      rating: generateRandomValue(MIN_RATING, MAX_RATING),
+      rating: generateRandomValue(Rating.Min, Rating.Max),
       propertyType: getRandomItem(this.mockData.property_types),
-      roomsNumber: generateRandomValue(MIN_ROOMS, MAX_ROOMS),
-      guestsNumber: generateRandomValue(MIN_GUESTS, MAX_GUESTS),
-      rentalCost: generateRandomValue(MIN_RENTAL_COST, MAX_RENTAL_COST),
+      roomsNumber: generateRandomValue(Rooms.Min, Rooms.Max),
+      guestsNumber: generateRandomValue(Guests.Min, Guests.Max),
+      rentalCost: generateRandomValue(RentalCost.Min, RentalCost.Max),
       features: getRandomItems(this.mockData.features),
       author: getRandomItem(this.mockData.authors),
       coordinates: getRandomItem(this.mockData.coordinates[city]),

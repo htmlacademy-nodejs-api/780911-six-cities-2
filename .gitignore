@@ -5,11 +5,13 @@
 /dist/
 /docs/
 .idea/*
+.env
 
 .DS_Store
 coverage
 *.log
 .prettierrc.json
 *.local
+*.local.ts
 
 test.tsv

@@ -3,7 +3,7 @@ import path from 'node:path';
 import chalk from 'chalk';
 
 import { Command } from './command.interface.js';
-import { generateErrorMessage } from '../../helpers/common.js';
+import { generateErrorMessage } from '../../shared/helpers/common.js';
 
 type PackageJSONConfig = {
   version: string;

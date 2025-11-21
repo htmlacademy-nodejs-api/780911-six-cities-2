@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import { generateErrorMessage } from '../../helpers/index.js';
-import { OfferGenerator } from '../../lib/OfferGenerator/index.js';
+import { generateErrorMessage } from '../../shared/helpers/index.js';
+import { OfferGenerator } from '../../shared/libs/OfferGenerator/index.js';
 import { Command } from './command.interface.js';
-import { MockServerData } from '../../types/mockServerData.js';
-import { TSVFileWriter } from '../../lib/TSVFileWriter/index.js';
+import { MockServerData } from '../../shared/types/mockServerData.js';
+import { TSVFileWriter } from '../../shared/libs/TSVFileWriter/index.js';
 
 export class GenerateCommand implements Command {
   private rawData = {} as MockServerData;
