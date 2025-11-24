@@ -95,3 +95,11 @@ export const valueToTSVString = (value: unknown) => {
 
 export const getCurrentDirectory = (path: URL | string) =>
   dirname(fileURLToPath(path));
+
+export const getMongoURI = (
+  login: string,
+  password: string,
+  host: string,
+  port: string,
+  dbName: string
+) => `mongodb://${login}:${password}@${host}:${port}/${dbName}`;
