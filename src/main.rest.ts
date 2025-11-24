@@ -10,6 +10,8 @@ import { Config } from './shared/libs/config/config.interface.js';
 import { RestSchema } from './shared/libs/config/rest.schema.js';
 import { RestConfig } from './shared/libs/config/rest.config.js';
 import { NodeEnv } from './shared/types/index.js';
+import { DBClient } from './shared/libs/db-client/db-client.interface.js';
+import { MongoDbClient } from './shared/libs/db-client/mongo.db-client.js';
 
 dotenv.config();
 async function bootstrap() {
@@ -25,6 +27,10 @@ async function bootstrap() {
     })
     .inSingletonScope();
   container.bind<Config<RestSchema>>(Component.Config).to(RestConfig);
+  container
+    .bind<DBClient>(Component.DBClient)
+    .to(MongoDbClient)
+    .inSingletonScope();
 
   const application = container.get<RestApplication>(Component.RestApplication);
 
