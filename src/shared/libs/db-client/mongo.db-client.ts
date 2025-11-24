@@ -1,8 +1,12 @@
 import * as Mongoose from 'mongoose';
 import { inject, injectable } from 'inversify';
+import { setTimeout } from 'node:timers/promises';
 import { DBClient } from './db-client.interface.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../Logger/index.js';
+
+const RETRY_COUNT = 5;
+const RETRY_TIMEOUT = 1000;
 
 @injectable()
 export class MongoDbClient implements DBClient {
@@ -17,18 +21,35 @@ export class MongoDbClient implements DBClient {
     return this.isConnected;
   }
 
-  async connect(uri: string): Promise<void> {
-    try {
-      if (this.isConnectedToDB()) {
-        throw Error('already connected to MongoDB');
-      }
-      this.logger.info('Connecting to MongoDB');
-      this.mongoose = await Mongoose.connect(uri);
-      this.isConnected = true;
-      this.logger.info('MongoDB connected successfully');
-    } catch (err) {
-      this.logger.error('MongoDB connection error:', err as Error);
+  public async connect(uri: string): Promise<void> {
+    if (this.isConnectedToDB()) {
+      throw new Error('MongoDB client already connected');
     }
+
+    this.logger.info('Trying to connect to MongoDB…');
+
+    let attempt = 0;
+    while (attempt < RETRY_COUNT) {
+      try {
+        console.log({ uri });
+        this.mongoose = await Mongoose.connect(uri);
+        this.isConnected = true;
+        this.logger.info('Database connection established.');
+        return;
+      } catch (error) {
+        attempt++;
+        this.logger.error(
+          `Failed to connect to the database. Attempt ${attempt}`,
+          error as Error
+        );
+        console.log({ error });
+        await setTimeout(RETRY_TIMEOUT);
+      }
+    }
+
+    throw new Error(
+      `Unable to establish database connection after ${RETRY_COUNT}`
+    );
   }
 
   async disconnect(): Promise<void> {

@@ -50,9 +50,9 @@ export const configRestSchema = convict<RestSchema>({
   },
   DB_HOST: {
     doc: 'Host to connect to Mongo DB',
-    format: 'ipaddress',
+    format: String,
     env: 'DB_HOST',
-    default: '127.0.0.1',
+    default: 'localhost',
   },
   ME_CONFIG_MONGODB_ADMINUSERNAME: {
     doc: 'mongo ui auth login',
