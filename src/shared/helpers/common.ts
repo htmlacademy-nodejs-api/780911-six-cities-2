@@ -102,4 +102,5 @@ export const getMongoURI = (
   host: string,
   port: string,
   dbName: string
-) => `mongodb://${login}:${password}@${host}:${port}/${dbName}`;
+) =>
+  `mongodb://${login}:${password}@${host}:${port}/${dbName}/?authSource=admin`;

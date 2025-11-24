@@ -1,4 +1,4 @@
-export default interface DBClient {
+export interface DBClient {
   connect(url: string): Promise<void>;
   disconnect(): Promise<void>;
 }
