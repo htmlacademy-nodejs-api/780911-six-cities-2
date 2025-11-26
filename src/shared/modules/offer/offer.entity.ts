@@ -6,7 +6,12 @@ import {
   modelOptions,
 } from '@typegoose/typegoose';
 import { UserEntity } from '../user/index.js';
-import { City, PropertyType, PropertyFeature } from '../../types/index.js';
+import {
+  City,
+  PropertyType,
+  PropertyFeature,
+  Offer,
+} from '../../types/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
@@ -77,6 +82,26 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({ required: true })
   public coordinates!: [number, number];
+
+  constructor(offerData: Offer) {
+    super();
+
+    this.title = offerData.title;
+    this.description = offerData.description ?? '';
+    this.publicationDate = offerData.publicationDate;
+    this.city = offerData.city;
+    this.previewImage = offerData.previewImage ?? '';
+    this.propertyPhotos = offerData.propertyPhotos ?? [];
+    this.premiumFlag = offerData.premiumFlag;
+    this.rating = offerData.rating;
+    this.propertyType = offerData.propertyType;
+    this.roomsNumber = offerData.roomsNumber;
+    this.guestsNumber = offerData.guestsNumber;
+    this.rentalCost = offerData.rentalCost;
+    this.features = offerData.features ?? [];
+    this.userId = offerData.userId;
+    this.coordinates = offerData.coordinates;
+  }
 }
 
 export const OfferModel = getModelForClass(OfferEntity);
