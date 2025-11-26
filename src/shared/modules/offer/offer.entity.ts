@@ -6,9 +6,7 @@ import {
   modelOptions,
 } from '@typegoose/typegoose';
 import { UserEntity } from '../user/index.js';
-import { City } from '../../types/city.enum.js';
-import { PropertyType } from '../../types/propertyType.enum.js';
-import { PropertyFeature } from '../../types/propertyFeature.enum.js';
+import { City, PropertyType, PropertyFeature } from '../../types/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}

@@ -1,6 +1,6 @@
 import { City, PropertyType, PropertyFeature } from '../../../types/index.js';
 
-export class CreateUserDTO {
+export class CreateOfferDTO {
   public title!: string;
   public description!: string;
   public publicationDate!: Date;
