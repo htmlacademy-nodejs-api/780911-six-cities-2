@@ -1,6 +1,7 @@
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import chalk from 'chalk';
+import * as crypto from 'node:crypto';
 
 export const generateErrorMessage = (error: unknown, message: string) => {
   console.error(chalk.red(message));
@@ -105,3 +106,8 @@ export const getMongoURI = (
 ) =>
   `mongodb://${login}:${password}@${host}:${port}/${dbName}?authSource=admin`;
 // mongodb://admin:mypassword@example.com:27017/?authSource=admin
+
+export const createSHA256 = (line: string, salt: string): string => {
+  const shaHasher = crypto.createHmac('sha256', salt);
+  return shaHasher.update(line).digest('hex');
+};
