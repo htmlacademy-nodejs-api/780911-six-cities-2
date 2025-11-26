@@ -4,6 +4,6 @@ import { OfferEntity } from './offer.entity.js';
 
 export interface OfferService {
   create(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>>;
-  find(): Promise<Array<DocumentType<OfferEntity>>>;
-  findById(OfferId: string): Promise<DocumentType<OfferEntity>>;
+  find(): Promise<Array<DocumentType<OfferEntity> | null>>;
+  findById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }
