@@ -59,7 +59,7 @@ export class OfferGenerator implements OfferGeneratorInterface {
       guestsNumber: generateRandomValue(Guests.Min, Guests.Max),
       rentalCost: generateRandomValue(RentalCost.Min, RentalCost.Max),
       features: getRandomItems(this.mockData.features),
-      author: getRandomItem(this.mockData.authors),
+      userId: getRandomItem(this.mockData.usersIds),
       coordinates: getRandomItem(this.mockData.coordinates[city]),
       premiumFlag: getRandomItem([true, false]),
     };

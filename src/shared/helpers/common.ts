@@ -54,7 +54,7 @@ export const createOffer = (line: string) => {
     'guestsNumber',
     'rentalCost',
     'features',
-    'author',
+    'userId',
     'coordinates',
     'premium_flag',
   ].reduce((acc, key, i) => {
