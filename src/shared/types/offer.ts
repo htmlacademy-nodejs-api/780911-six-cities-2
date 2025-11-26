@@ -1,6 +1,3 @@
-import { Ref } from '@typegoose/typegoose';
-import { UserEntity } from '../modules/user/index.js';
-
 import { City } from './city.enum.js';
 import { PropertyType } from './propertyType.enum.js';
 import { PropertyFeature } from './propertyFeature.enum.js';
@@ -20,6 +17,6 @@ export type Offer = {
   guestsNumber: number;
   rentalCost: number;
   features: Array<PropertyFeature>;
-  userId: Ref<UserEntity>;
+  userId: string;
   coordinates: [number, number];
 };

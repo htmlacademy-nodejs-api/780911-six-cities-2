@@ -99,7 +99,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     this.guestsNumber = offerData.guestsNumber;
     this.rentalCost = offerData.rentalCost;
     this.features = offerData.features ?? [];
-    this.userId = offerData.userId;
+    this.userId = offerData.userId as unknown as Ref<UserEntity>;
     this.coordinates = offerData.coordinates;
   }
 }

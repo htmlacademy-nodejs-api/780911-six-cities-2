@@ -1,6 +1,4 @@
 import { City, PropertyType, PropertyFeature } from '../../../types/index.js';
-import { Ref } from '@typegoose/typegoose';
-import { UserEntity } from '../../user/index.js';
 
 export class CreateOfferDTO {
   public title!: string;
@@ -17,6 +15,6 @@ export class CreateOfferDTO {
   public guestsNumber!: number;
   public rentalCost!: number;
   public features!: Array<PropertyFeature>;
-  public userId!: Ref<UserEntity>;
+  public userId!: string;
   public coordinates!: [number, number];
 }
