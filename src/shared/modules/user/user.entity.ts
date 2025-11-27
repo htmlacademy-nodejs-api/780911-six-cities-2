@@ -1,4 +1,9 @@
-import { prop, getModelForClass, defaultClasses } from '@typegoose/typegoose';
+import {
+  prop,
+  getModelForClass,
+  defaultClasses,
+  modelOptions,
+} from '@typegoose/typegoose';
 
 import { User } from '../../types/user.js';
 import { createSHA256 } from '../../helpers/common.js';
@@ -6,6 +11,12 @@ import { createSHA256 } from '../../helpers/common.js';
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface UserEntity extends defaultClasses.Base {}
 
+@modelOptions({
+  schemaOptions: {
+    collection: 'users',
+    timestamps: true,
+  },
+})
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({ required: true })
