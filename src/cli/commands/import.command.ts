@@ -16,12 +16,20 @@ import { DBClient, MongoDbClient } from '../../shared/libs/db-client/index.js';
 //   OfferModel,
 //   OfferService,
 // } from '../../shared/modules/offer/index.js';
+import {
+  CreateUserDTO,
+  UserService,
+  DefaultUserService,
+  UserModel,
+} from '../../shared/modules/user/index.js';
 
 dotenv.config();
 
 export class ImportCommand implements Command {
   private dbClient: DBClient;
   // private offerService: OfferService;
+  private salt!: string;
+  private userService: UserService;
 
   // private async createOffer(dto: CreateOfferDTO) {
   //   const newOffer = await this.offerService.create(dto);
@@ -29,10 +37,17 @@ export class ImportCommand implements Command {
   //   return newOffer;
   // }
 
+  private async findOrCreateUser(dto: CreateUserDTO) {
+    const newUser = await this.userService.findOrCreate(dto, this.salt);
+    this.logger.info(`Created User: ${JSON.stringify(newUser)}`);
+    return newUser;
+  }
+
   constructor(private logger: Logger) {
     this.dbClient = new MongoDbClient(this.logger);
     this.onImportedLine = this.onImportedLine.bind(this);
     this.onCompleteImport = this.onCompleteImport.bind(this);
+    this.userService = new DefaultUserService(this.logger, UserModel);
     // this.offerService = new DefaultOfferService(this.logger, OfferModel);
   }
 
@@ -43,8 +58,13 @@ export class ImportCommand implements Command {
   private async onImportedLine(line: string) {
     const offerDTO = createMockOffer(line);
     console.log({ offerDTO });
-    // const offer = await this.createOffer(offerDTO);
-    // this.logger.info(JSON.stringify(offer));
+    const user = await this.findOrCreateUser(offerDTO.user);
+    console.log({ user });
+    //TODO: add user to DB
+    // TODO: add offer to DB
+    // Copy from local test
+    //const offer = await this.createOffer(offerDTO);
+    //this.logger.info(JSON.stringify(offer));
   }
 
   private onCompleteImport(count: number) {
@@ -57,7 +77,8 @@ export class ImportCommand implements Command {
     dbPassword: string,
     dbHost: string = 'localhost',
     dbPort: string = '27017',
-    dbName: string
+    dbName: string,
+    salt: string
   ) {
     try {
       requireArgs(this.logger, {
@@ -68,6 +89,7 @@ export class ImportCommand implements Command {
         dbPort,
         dbName,
       });
+      this.salt = salt;
       const filePath = path.resolve(fileArg);
 
       const reader = new TSVFileReader(filePath);
