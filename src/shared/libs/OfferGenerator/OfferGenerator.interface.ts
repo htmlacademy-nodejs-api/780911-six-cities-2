@@ -1,5 +1,5 @@
-import { Offer } from '../../types/index.js';
+import { MockOffer } from '../../types/index.js';
 
 export interface OfferGenerator {
-  generate(): Offer;
+  generate(): MockOffer;
 }

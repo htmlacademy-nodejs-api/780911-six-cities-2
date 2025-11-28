@@ -26,6 +26,7 @@ export class GenerateCommand implements Command {
   }
 
   private async write(offerAmount: number, outputPath: string) {
+    console.log({ rawData: this.rawData });
     const offerGenerator = new OfferGenerator(this.rawData);
     const offerArr = [];
     for (let i = 0; i < offerAmount; i++) {

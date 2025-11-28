@@ -1,5 +1,5 @@
 import { OfferGenerator as OfferGeneratorInterface } from './OfferGenerator.interface.js';
-import { Offer } from '../../types/index.js';
+import { MockOffer } from '../../types/index.js';
 import {
   getDaysAgo,
   getRandomItem,
@@ -42,8 +42,9 @@ const enum RentalCost {
 export class OfferGenerator implements OfferGeneratorInterface {
   constructor(private readonly mockData: MockServerData) {}
 
-  generate(): Offer {
+  generate(): MockOffer {
     const city = getRandomItem(this.mockData.cities);
+
     return {
       title: getRandomItem(this.mockData.titles),
       description: getRandomItem(this.mockData.descriptions),
@@ -59,7 +60,7 @@ export class OfferGenerator implements OfferGeneratorInterface {
       guestsNumber: generateRandomValue(Guests.Min, Guests.Max),
       rentalCost: generateRandomValue(RentalCost.Min, RentalCost.Max),
       features: getRandomItems(this.mockData.features),
-      userId: getRandomItem(this.mockData.usersIds),
+      user: getRandomItem(this.mockData.users),
       coordinates: getRandomItem(this.mockData.coordinates[city]),
       premiumFlag: getRandomItem([true, false]),
     };
