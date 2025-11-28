@@ -3,10 +3,14 @@ import { fileURLToPath } from 'node:url';
 import * as crypto from 'node:crypto';
 import chalk from 'chalk';
 import { Logger } from '../libs/Logger/index.js';
-import { Offer } from '../types/offer.js';
-import { City } from '../types/city.enum.js';
-import { PropertyType } from '../types/propertyType.enum.js';
-import { PropertyFeature } from '../types/propertyFeature.enum.js';
+
+import {
+  City,
+  MockOffer,
+  User,
+  PropertyType,
+  PropertyFeature,
+} from '../types/index.js';
 
 export const generateErrorMessage = (error: unknown, message: string) => {
   console.error(chalk.red(message));
@@ -44,7 +48,14 @@ export const getDaysAgo = (daysAgo: number): Date => {
 export const isNumber = (value: unknown): value is number =>
   typeof value === 'number' && Number.isFinite(value);
 
-export const createOffer = (line: string): Offer => {
+const createMockUser = (arr: Array<string>): User => {
+  const keys = ['name', 'email', 'image', 'password'] as const;
+  return keys.reduce((acc, key, index) => {
+    acc[key] = arr[index];
+    return acc;
+  }, {} as Record<(typeof keys)[number], string>);
+};
+export const createMockOffer = (line: string): MockOffer => {
   const values = line.trimEnd().split('\t');
   const [
     title,
@@ -60,11 +71,11 @@ export const createOffer = (line: string): Offer => {
     guestsNumber,
     rentalCost,
     features,
-    userId,
+    user,
     coordinates,
   ] = values;
 
-  return {
+  const offer = {
     title,
     description,
     publicationDate: new Date(publicationDate),
@@ -78,9 +89,12 @@ export const createOffer = (line: string): Offer => {
     guestsNumber: Number(guestsNumber),
     rentalCost: Number(rentalCost),
     features: features.split(',') as PropertyFeature[],
-    userId,
+    user: createMockUser(user.split(',')),
     coordinates: coordinates.split(',').map(Number) as [number, number],
   };
+
+  console.log({ offer });
+  return offer;
 };
 
 export function isPlainObject(

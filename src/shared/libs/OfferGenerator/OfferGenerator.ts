@@ -54,6 +54,7 @@ export class OfferGenerator implements OfferGeneratorInterface {
       city,
       previewImage: getRandomItem(this.mockData.preview_images),
       propertyPhotos: getRandomItem(this.mockData.property_photos),
+      premiumFlag: getRandomItem([true, false]),
       rating: generateRandomValue(Rating.Min, Rating.Max),
       propertyType: getRandomItem(this.mockData.property_types),
       roomsNumber: generateRandomValue(Rooms.Min, Rooms.Max),
@@ -62,7 +63,6 @@ export class OfferGenerator implements OfferGeneratorInterface {
       features: getRandomItems(this.mockData.features),
       user: getRandomItem(this.mockData.users),
       coordinates: getRandomItem(this.mockData.coordinates[city]),
-      premiumFlag: getRandomItem([true, false]),
     };
   }
 }

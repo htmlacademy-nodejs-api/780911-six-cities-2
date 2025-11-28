@@ -6,34 +6,34 @@ import {
   generateErrorMessage,
   getMongoURI,
   requireArgs,
-  createOffer,
+  createMockOffer,
 } from '../../shared/helpers/index.js';
 import { Logger } from '../../shared/libs/Logger/index.js';
 import { DBClient, MongoDbClient } from '../../shared/libs/db-client/index.js';
-import {
-  CreateOfferDTO,
-  DefaultOfferService,
-  OfferModel,
-  OfferService,
-} from '../../shared/modules/offer/index.js';
+// import {
+//   CreateOfferDTO,
+//   DefaultOfferService,
+//   OfferModel,
+//   OfferService,
+// } from '../../shared/modules/offer/index.js';
 
 dotenv.config();
 
 export class ImportCommand implements Command {
   private dbClient: DBClient;
-  private offerService: OfferService;
+  // private offerService: OfferService;
 
-  private async createOffer(dto: CreateOfferDTO) {
-    const newOffer = await this.offerService.create(dto);
-    this.logger.info(`Created Offer: ${JSON.stringify(newOffer)}`);
-    return newOffer;
-  }
+  // private async createOffer(dto: CreateOfferDTO) {
+  //   const newOffer = await this.offerService.create(dto);
+  //   this.logger.info(`Created Offer: ${JSON.stringify(newOffer)}`);
+  //   return newOffer;
+  // }
 
   constructor(private logger: Logger) {
     this.dbClient = new MongoDbClient(this.logger);
     this.onImportedLine = this.onImportedLine.bind(this);
     this.onCompleteImport = this.onCompleteImport.bind(this);
-    this.offerService = new DefaultOfferService(this.logger, OfferModel);
+    // this.offerService = new DefaultOfferService(this.logger, OfferModel);
   }
 
   public getName(): string {
@@ -41,10 +41,10 @@ export class ImportCommand implements Command {
   }
 
   private async onImportedLine(line: string) {
-    const offerDTO = createOffer(line);
+    const offerDTO = createMockOffer(line);
     console.log({ offerDTO });
-    const offer = await this.createOffer(offerDTO);
-    this.logger.info(JSON.stringify(offer));
+    // const offer = await this.createOffer(offerDTO);
+    // this.logger.info(JSON.stringify(offer));
   }
 
   private onCompleteImport(count: number) {
