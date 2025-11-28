@@ -3,6 +3,10 @@ import { fileURLToPath } from 'node:url';
 import * as crypto from 'node:crypto';
 import chalk from 'chalk';
 import { Logger } from '../libs/Logger/index.js';
+import { Offer } from '../types/offer.js';
+import { City } from '../types/city.enum.js';
+import { PropertyType } from '../types/propertyType.enum.js';
+import { PropertyFeature } from '../types/propertyFeature.enum.js';
 
 export const generateErrorMessage = (error: unknown, message: string) => {
   console.error(chalk.red(message));
@@ -40,28 +44,43 @@ export const getDaysAgo = (daysAgo: number): Date => {
 export const isNumber = (value: unknown): value is number =>
   typeof value === 'number' && Number.isFinite(value);
 
-export const createOffer = (line: string) => {
+export const createOffer = (line: string): Offer => {
   const values = line.trimEnd().split('\t');
-  return [
-    'title',
-    'description',
-    'publicationDate',
-    'city',
-    'previewImage',
-    'propertyPhotos',
-    'premium_flag',
-    'rating',
-    'propertyType',
-    'roomsNumber',
-    'guestsNumber',
-    'rentalCost',
-    'features',
-    'userId',
-    'coordinates',
-  ].reduce((acc, key, i) => {
-    acc[key] = values[i];
-    return acc;
-  }, {} as Record<string, string>);
+  const [
+    title,
+    description,
+    publicationDate,
+    city,
+    previewImage,
+    propertyPhotos,
+    premiumFlag,
+    rating,
+    propertyType,
+    roomsNumber,
+    guestsNumber,
+    rentalCost,
+    features,
+    userId,
+    coordinates,
+  ] = values;
+
+  return {
+    title,
+    description,
+    publicationDate: new Date(publicationDate),
+    city: city as City,
+    previewImage,
+    propertyPhotos: propertyPhotos.split(','),
+    premiumFlag: premiumFlag === 'true',
+    rating: Number(rating),
+    propertyType: propertyType as PropertyType,
+    roomsNumber: Number(roomsNumber),
+    guestsNumber: Number(guestsNumber),
+    rentalCost: Number(rentalCost),
+    features: features.split(',') as PropertyFeature[],
+    userId,
+    coordinates: coordinates.split(',').map(Number) as [number, number],
+  };
 };
 
 export function isPlainObject(

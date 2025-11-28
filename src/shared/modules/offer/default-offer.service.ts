@@ -1,7 +1,7 @@
 import { injectable, inject } from 'inversify';
 import { DocumentType, types } from '@typegoose/typegoose';
 
-import { PinoLogger } from '../../libs/Logger/PinoLogger.js';
+import { Logger } from '../../libs/Logger/index.js';
 
 import { Component } from '../../types/component.enum.js';
 
@@ -12,7 +12,7 @@ import { OfferService } from './offer-service.interface.js';
 @injectable()
 export class DefaultOfferService implements OfferService {
   constructor(
-    @inject(Component.Logger) private readonly logger: PinoLogger,
+    @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.OfferModel)
     private readonly offerModel: types.ModelType<OfferEntity>
   ) {}

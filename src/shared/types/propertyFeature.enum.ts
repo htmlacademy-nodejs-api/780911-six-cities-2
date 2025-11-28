@@ -1,8 +1,7 @@
 export enum PropertyFeature {
   Breakfast = 'Breakfast',
   AirConditioning = 'Air conditioning',
-  Laptop = 'Laptop',
-  FriendlyWorkspace = 'friendly workspace',
+  LaptopFriendlyWorkspace = 'Laptop friendly workspace',
   BabySeat = 'Baby seat',
   Washer = 'Washer',
   Towels = 'Towels',

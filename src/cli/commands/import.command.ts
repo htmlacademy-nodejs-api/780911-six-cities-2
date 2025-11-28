@@ -1,44 +1,90 @@
 import path from 'node:path';
-import chalk from 'chalk';
-
+import dotenv from 'dotenv';
 import { Command } from './command.interface.js';
 import { TSVFileReader } from '../../shared/libs/TSVFileReader/index.js';
 import {
   generateErrorMessage,
+  getMongoURI,
+  requireArgs,
   createOffer,
 } from '../../shared/helpers/index.js';
+import { Logger } from '../../shared/libs/Logger/index.js';
+import { DBClient, MongoDbClient } from '../../shared/libs/db-client/index.js';
+import {
+  CreateOfferDTO,
+  DefaultOfferService,
+  OfferModel,
+  OfferService,
+} from '../../shared/modules/offer/index.js';
+
+dotenv.config();
 
 export class ImportCommand implements Command {
+  private dbClient: DBClient;
+  private offerService: OfferService;
+
+  private async createOffer(dto: CreateOfferDTO) {
+    const newOffer = await this.offerService.create(dto);
+    this.logger.info(`Created Offer: ${JSON.stringify(newOffer)}`);
+    return newOffer;
+  }
+
+  constructor(private logger: Logger) {
+    this.dbClient = new MongoDbClient(this.logger);
+    this.onImportedLine = this.onImportedLine.bind(this);
+    this.onCompleteImport = this.onCompleteImport.bind(this);
+    this.offerService = new DefaultOfferService(this.logger, OfferModel);
+  }
+
   public getName(): string {
     return '--import';
   }
 
-  private onImportedLine(line: string) {
-    const offer = createOffer(line);
-    console.info(offer);
+  private async onImportedLine(line: string) {
+    const offerDTO = createOffer(line);
+    console.log({ offerDTO });
+    const offer = await this.createOffer(offerDTO);
+    this.logger.info(JSON.stringify(offer));
   }
 
   private onCompleteImport(count: number) {
-    console.info(`${count} rows imported.`);
+    this.logger.info(`${count} rows imported.`);
   }
 
-  public execute(...args: string[]) {
+  public async execute(
+    fileArg: string,
+    dbLogin: string,
+    dbPassword: string,
+    dbHost: string = 'localhost',
+    dbPort: string = '27017',
+    dbName: string
+  ) {
     try {
-      if (args.length === 0) {
-        throw new Error('No path for TSV file is provided');
-      }
-
-      const [fileArg] = args;
+      requireArgs(this.logger, {
+        fileArg,
+        dbLogin,
+        dbPassword,
+        dbHost,
+        dbPort,
+        dbName,
+      });
       const filePath = path.resolve(fileArg);
 
       const reader = new TSVFileReader(filePath);
-      reader.read();
-
       reader.on('line', this.onImportedLine);
       reader.on('end', this.onCompleteImport);
+      reader.read();
+
+      //const uri = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=${AUTH_DB}`;
+      const uri = getMongoURI(dbLogin, dbPassword, dbHost, dbPort, dbName);
+
+      await this.dbClient.connect(uri);
+      this.logger.info(`✅ Connected to MongoDB! URI is ${uri}`);
     } catch (error: unknown) {
       generateErrorMessage(error, 'Failed to import file');
-      console.error(chalk.red('Failed to import file'));
+      if (error instanceof Error) {
+        this.logger.error('Failed to import file', error);
+      }
     }
   }
 }
