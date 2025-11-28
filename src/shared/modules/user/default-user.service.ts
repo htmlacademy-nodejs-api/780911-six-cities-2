@@ -4,12 +4,12 @@ import { CreateUserDTO } from './dto/create-user.dto.js';
 import { UserService } from './user-service.interface.js';
 import { UserEntity } from './user.entity.js';
 import { Component } from '../../types/component.enum.js';
-import { PinoLogger } from '../../libs/Logger/PinoLogger.js';
+import { Logger } from '../../libs/Logger/index.js';
 
 @injectable()
 export class DefaultUserService implements UserService {
   constructor(
-    @inject(Component.Logger) private readonly logger: PinoLogger,
+    @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.UserModel)
     private readonly userModel: types.ModelType<UserEntity>
   ) {}

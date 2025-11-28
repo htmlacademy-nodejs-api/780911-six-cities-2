@@ -10,6 +10,7 @@ import {
   User,
   PropertyType,
   PropertyFeature,
+  MockUser,
 } from '../types/index.js';
 
 export const generateErrorMessage = (error: unknown, message: string) => {
@@ -89,7 +90,7 @@ export const createMockOffer = (line: string): MockOffer => {
     guestsNumber: Number(guestsNumber),
     rentalCost: Number(rentalCost),
     features: features.split(',') as PropertyFeature[],
-    user: createMockUser(user.split(',')),
+    user: createMockUser(user.split(',')) as MockUser,
     coordinates: coordinates.split(',').map(Number) as [number, number],
   };
 
