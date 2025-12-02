@@ -11,4 +11,5 @@ export interface OfferService {
     offerId: string,
     dto: UpdateOfferDTO
   ): Promise<DocumentType<OfferEntity> | null>;
+  deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }

@@ -40,4 +40,8 @@ export class DefaultOfferService implements OfferService {
       .populate('userId')
       .exec();
   }
+
+  public async deleteById(offerId: string) {
+    return this.offerModel.findByIdAndDelete(offerId).exec();
+  }
 }
