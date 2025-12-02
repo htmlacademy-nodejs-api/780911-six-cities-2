@@ -16,6 +16,65 @@ tags:
     description: Действия с комментариями.
 
 paths:
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Получение списка предложений по аренде
+      description: ППолучение списка предложений по аренде
+
+      responses:
+        '200':
+          description: Получение Получение списка предложений по аренде. Объект предложения.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+
+    post:
+      tags:
+        - offers
+      summary: Создание нового предложения
+      description: Создает новое предложение
+      requestBody:
+        description: Информация для создания нового предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOffer'
+        required: true
+
+      responses:
+        '201':
+          description: Создано новое предложение. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        '500':
+          description: Internal server error.
+
+  /offers/{offerId}/:
+    get:
+      tags:
+        - offers
+      summary: Получение детальной информация по предложению
+
+      description: Получение детальной информация по предложению, все поля offer
+      responses:
+        '200':
+          description: Получение детальной информация по предложению. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        '404':
+          description: Данного предложения не существует.
+
   /users/register:
     post:
       tags:
@@ -63,31 +122,6 @@ paths:
       description: Загружает изображение аватара пользователя. Изображение
         аватара должно быть в формате `png` или `jpg`.
 
-  /offers:
-    post:
-      tags:
-        - offers
-      summary: Создание нового предложения
-      description: Создает новое предложение
-      requestBody:
-        description: Информация для создания нового предложения.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/createOffer'
-        required: true
-
-      responses:
-        '201':
-          description: Пользователь зарегистрирован. Объект пользователя.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-
-        '409':
-          description: Пользователь с таким email уже существует.
-
 components:
   schemas:
     City:
@@ -130,6 +164,61 @@ components:
         - coordinates
 
       properties:
+        title:
+          type: string
+          example: Charming Studio near central railway station
+
+        description:
+          type: string
+          example: A cozy apartment located in the heart with stunning views of the Eiffel Tower. Perfect for couples and solo travelers
+        publicationDate:
+          type: string
+          format: date-time
+
+        city:
+          $ref: '#/components/schemas/City'
+
+        previewImage:
+          type: string
+          example: /images/paris-studio.jpg
+
+        propertyPhotos:
+          type: array
+          items:
+            type: string
+
+        premiumFlag:
+          type: boolean
+
+        propertyType:
+          $ref: '#/components/schemas/PropertyType'
+
+        roomsNumber:
+          type: integer
+
+        guestsNumber:
+          type: integer
+
+        rentalCost:
+          type: number
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyFeature'
+        coordinates:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items:
+            type: number
+
+    offer:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
         title:
           type: string
           example: Charming Studio near central railway station
