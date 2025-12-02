@@ -8,6 +8,7 @@ import { Component } from '../../types/component.enum.js';
 import { OfferEntity } from './offer.entity.js';
 import { CreateOfferDTO } from './dto/create-offer.dto.js';
 import { OfferService } from './offer-service.interface.js';
+import { UpdateOfferDTO } from './dto/update-offer.dto.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -25,11 +26,18 @@ export class DefaultOfferService implements OfferService {
     return res;
   }
 
-  find() {
+  public async find() {
     return this.offerModel.find().populate('userId').exec();
   }
 
-  findById(offerId: string) {
+  public async findById(offerId: string) {
     return this.offerModel.findById(offerId).exec();
+  }
+
+  public async updateById(offerId: string, dto: UpdateOfferDTO) {
+    return this.offerModel
+      .findByIdAndUpdate(offerId, dto, { new: true })
+      .populate('userId')
+      .exec();
   }
 }
