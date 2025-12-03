@@ -10,6 +10,7 @@ import { CreateOfferDTO } from './dto/create-offer.dto.js';
 import { OfferService } from './offer-service.interface.js';
 import { UpdateOfferDTO } from './dto/update-offer.dto.js';
 
+//TODO: update imports in index
 @injectable()
 export class DefaultOfferService implements OfferService {
   constructor(
