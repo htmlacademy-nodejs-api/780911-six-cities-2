@@ -7,4 +7,6 @@ export interface CommentService {
     offerId: string,
     dto: CreateCommentDTO
   ): Promise<DocumentType<CommentEntity>>;
+
+  // incCommentCount(offerId: string): Promise<void>;
 }

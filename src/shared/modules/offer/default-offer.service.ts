@@ -3,7 +3,7 @@ import { DocumentType, types } from '@typegoose/typegoose';
 
 import { Logger } from '../../libs/Logger/index.js';
 
-import { Component, SortType } from '../../types/index.js';
+import { City, Component, SortType } from '../../types/index.js';
 
 import { OfferEntity } from './offer.entity.js';
 import { CreateOfferDTO } from './dto/create-offer.dto.js';
@@ -68,7 +68,7 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
-  public async findPremium(city: string, limit = DEFAULT_PREMIUM_OFFER_COUNT) {
+  public async findPremium(city: City, limit = DEFAULT_PREMIUM_OFFER_COUNT) {
     return this.offerModel
       .find({ city, premiumFlag: true })
       .sort({ createdAt: SortType.Down })

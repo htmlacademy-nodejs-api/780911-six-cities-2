@@ -3,6 +3,7 @@ import { CreateOfferDTO } from './dto/create-offer.dto.js';
 import { OfferEntity } from './offer.entity.js';
 import { UpdateOfferDTO } from './dto/update-offer.dto.js';
 import { CommentEntity } from '../comment/comment.entity.js';
+import { City } from '../../types/index.js';
 
 export interface OfferService {
   create(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>>;
@@ -17,8 +18,7 @@ export interface OfferService {
     offerId: string
   ): Promise<Array<DocumentType<CommentEntity> | null>>;
   findPremium(
-    city: string,
+    city: City,
     limit?: number
   ): Promise<Array<DocumentType<OfferEntity> | null>>;
-  incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }
