@@ -3,7 +3,7 @@ import { DocumentType, types } from '@typegoose/typegoose';
 
 import { Logger } from '../../libs/Logger/index.js';
 
-import { Component } from '../../types/component.enum.js';
+import { Component, SortType } from '../../types/index.js';
 
 import { OfferEntity } from './offer.entity.js';
 import { CreateOfferDTO } from './dto/create-offer.dto.js';
@@ -11,6 +11,8 @@ import { OfferService } from './offer-service.interface.js';
 import { UpdateOfferDTO } from './dto/update-offer.dto.js';
 import { CommentEntity } from '../comment/comment.entity.js';
 
+const DEFAULT_OFFER_COUNT = 60;
+const DEFAULT_PREMIUM_OFFER_COUNT = 3;
 //TODO: update imports in index
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -30,7 +32,7 @@ export class DefaultOfferService implements OfferService {
     return res;
   }
 
-  public async find(limit = 60) {
+  public async find(limit = DEFAULT_OFFER_COUNT) {
     return this.offerModel
       .find()
       .sort({ publicationDate: -1 })
@@ -65,4 +67,27 @@ export class DefaultOfferService implements OfferService {
       .populate('userId') //TODO: how to get user data? Currently it gives only id
       .exec();
   }
+
+  public async findPremium(city: string, limit = DEFAULT_PREMIUM_OFFER_COUNT) {
+    return this.offerModel
+      .find({ city, premiumFlag: true })
+      .sort({ createdAt: SortType.Down })
+      .limit(limit)
+      .populate(['userId'])
+      .exec();
+  }
+
+  public async incCommentCount(
+    offerId: string
+  ): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel
+      .findByIdAndUpdate(offerId, {
+        $inc: {
+          commentCount: 1,
+        },
+      })
+      .exec();
+  }
 }
+
+//TODO: add количество комментариев to offers result in findPremium, find

@@ -16,4 +16,9 @@ export interface OfferService {
   findComments(
     offerId: string
   ): Promise<Array<DocumentType<CommentEntity> | null>>;
+  findPremium(
+    city: string,
+    limit?: number
+  ): Promise<Array<DocumentType<OfferEntity> | null>>;
+  incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }

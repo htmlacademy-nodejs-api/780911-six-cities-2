@@ -24,10 +24,11 @@ export class DefaultCommentService implements CommentService {
     dto: CreateCommentDTO
   ): Promise<DocumentType<CommentEntity>> {
     const newComment = await this.commentModel.create(dto);
-
+    //Is this correct way to update comments in an offer?
     await this.offerModel.findByIdAndUpdate(offerId, {
       $push: { comments: newComment._id },
     });
+    await this.offerModel;
 
     this.logger.info(
       `New comment created: ${newComment._id} to an offer ${offerId}`
