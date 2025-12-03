@@ -26,4 +26,5 @@ export type MockOffer = BaseOffer & {
 };
 export type Offer = BaseOffer & {
   userId: string;
+  comments?: Array<string>;
 };

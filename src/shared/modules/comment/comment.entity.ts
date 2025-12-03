@@ -1,6 +1,17 @@
-import { defaultClasses, getModelForClass, prop } from '@typegoose/typegoose';
+import {
+  defaultClasses,
+  getModelForClass,
+  prop,
+  modelOptions,
+} from '@typegoose/typegoose';
 import { Comment } from '../../types/index.js';
 
+@modelOptions({
+  schemaOptions: {
+    collection: 'comments',
+    timestamps: true,
+  },
+})
 export class CommentEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public text!: string;
