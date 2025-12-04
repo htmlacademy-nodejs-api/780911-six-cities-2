@@ -84,9 +84,6 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public coordinates!: [number, number];
 
-  // @prop({ ref: () => CommentEntity, default: [] })
-  // public comments!: Array<Ref<CommentEntity>>;
-
   @prop({ required: true })
   public commentsCount!: number;
 
@@ -113,3 +110,5 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 }
 
 export const OfferModel = getModelForClass(OfferEntity);
+
+//TODO: look for onion layers architecure service repository and controller
