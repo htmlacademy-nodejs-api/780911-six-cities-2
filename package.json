@@ -26,6 +26,7 @@
     "@typescript-eslint/parser": "6.7.0",
     "eslint": "8.49.0",
     "eslint-config-htmlacademy": "9.1.1",
+    "nodemon": "^3.0.1",
     "pino-pretty": "^10.3.1",
     "rimraf": "5.0.1",
     "ts-node": "10.9.1",

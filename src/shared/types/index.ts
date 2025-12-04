@@ -6,3 +6,5 @@ export * from './offer.js';
 export * from './propertyFeature.enum.js';
 export * from './propertyType.enum.js';
 export * from './user.js';
+export * from './comment.js';
+export * from './sort-type.enum.js';
