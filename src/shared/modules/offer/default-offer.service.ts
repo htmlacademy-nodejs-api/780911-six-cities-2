@@ -5,21 +5,27 @@ import { Logger } from '../../libs/Logger/index.js';
 
 import { City, Component, SortType } from '../../types/index.js';
 
-import { OfferEntity } from './offer.entity.js';
-import { CreateOfferDTO } from './dto/create-offer.dto.js';
-import { OfferService } from './offer-service.interface.js';
-import { UpdateOfferDTO } from './dto/update-offer.dto.js';
-// import { CommentEntity } from '../comment/comment.entity.js';
+import {
+  UpdateOfferDTO,
+  OfferService,
+  CreateOfferDTO,
+  OfferEntity,
+} from './index.js';
+import { CommentEntity } from '../comment/index.js';
 
-const DEFAULT_OFFER_COUNT = 60;
-const DEFAULT_PREMIUM_OFFER_COUNT = 3;
-//TODO: update imports in index
+const enum OfferCount {
+  Default = 60,
+  Premium = 3,
+}
+
 @injectable()
 export class DefaultOfferService implements OfferService {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.OfferModel)
-    private readonly offerModel: types.ModelType<OfferEntity> // @inject(Component.CommentModel) // private readonly commentModel: types.ModelType<CommentEntity>
+    private readonly offerModel: types.ModelType<OfferEntity>,
+    @inject(Component.CommentModel)
+    private readonly commentModel: types.ModelType<CommentEntity>
   ) {}
 
   public async create(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>> {
@@ -30,7 +36,8 @@ export class DefaultOfferService implements OfferService {
     return res;
   }
 
-  public async find(limit = DEFAULT_OFFER_COUNT) {
+  // add pagination, read about differnt types of pagiantions and pagination optimisation
+  public async find(limit = OfferCount.Default) {
     return this.offerModel
       .find()
       .sort({ publicationDate: SortType.Down })
@@ -54,19 +61,7 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel.findByIdAndDelete(offerId).exec();
   }
 
-  // public async findComments(offerId: string) {
-  //   const offer = await this.offerModel.findById(offerId).exec();
-
-  //   if (!offer) {
-  //     throw new Error(`Offer with id ${offerId} not found`);
-  //   }
-  //   return this.commentModel
-  //     .find({ _id: { $in: offer.comments } })
-  //     .populate('userId') //TODO: how to get user data? Currently it gives only id
-  //     .exec();
-  // }
-
-  public async findPremium(city: City, limit = DEFAULT_PREMIUM_OFFER_COUNT) {
+  public async findPremium(city: City, limit = OfferCount.Premium) {
     return this.offerModel
       .find({ city, premiumFlag: true })
       .sort({ createdAt: SortType.Down })
@@ -74,6 +69,8 @@ export class DefaultOfferService implements OfferService {
       .populate(['userId'])
       .exec();
   }
-}
 
-//TODO: add количество комментариев to offers result in findPremium, find
+  public async findComments(offerId: string) {
+    return this.commentModel.find({ offerId });
+  }
+}
