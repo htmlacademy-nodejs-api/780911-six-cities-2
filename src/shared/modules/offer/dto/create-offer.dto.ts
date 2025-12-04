@@ -17,4 +17,5 @@ export class CreateOfferDTO {
   public features!: Array<PropertyFeature>;
   public userId!: string;
   public coordinates!: [number, number];
+  public commentCount!: number;
 }

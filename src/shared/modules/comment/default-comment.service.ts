@@ -22,22 +22,18 @@ export class DefaultCommentService implements CommentService {
   // so comment count is WIP
   // TODO: comment creation is done by logged users only
 
-  // public async incCommentCount(offerId: string): Promise<void> {
-  //   await this.offerModel
-  //     .findByIdAndUpdate(offerId, {
-  //       $inc: {
-  //         commentCount: 1,
-  //       },
-  //     })
-  //     .exec();
-  // }
+  public async incCommentCount(offerId: string): Promise<void> {
+    await this.offerModel
+      .findByIdAndUpdate(offerId, {
+        $inc: {
+          commentCount: 1,
+        },
+      })
+      .exec();
+  }
 
   private async updateOfferRating(offerId: string) {
-    const offer = await this.offerModel
-      .findById(offerId)
-      .populate<{ comments: DocumentType<CommentEntity>[] }>('comments');
-
-    const comments = offer!.comments;
+    const comments = await this.commentModel.find({ offerId });
     const sum = comments.reduce((acc, c) => acc + c.rating, 0);
     const avg = comments.length > 0 ? sum / comments.length : 0;
     const roundedAvg = Math.round(avg * 10) / 10;
@@ -53,20 +49,19 @@ export class DefaultCommentService implements CommentService {
   }
 
   public async create(
-    offerId: string,
     dto: CreateCommentDTO
   ): Promise<DocumentType<CommentEntity>> {
     const newComment = await this.commentModel.create(dto);
 
-    await this.offerModel.findByIdAndUpdate(offerId, {
+    await this.offerModel.findByIdAndUpdate(dto.offerId, {
       $push: { comments: newComment._id },
     });
-    await this.updateOfferRating(offerId);
-    // await this.incCommentCount(offerId);
+    await this.updateOfferRating(dto.offerId);
+    await this.incCommentCount(dto.offerId);
     await this.offerModel;
 
     this.logger.info(
-      `New comment created: ${newComment._id} to an offer ${offerId}`
+      `New comment created: ${newComment._id} to an offer ${dto.offerId}`
     );
     return newComment;
   }

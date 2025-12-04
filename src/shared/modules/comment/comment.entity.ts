@@ -7,6 +7,7 @@ import {
 } from '@typegoose/typegoose';
 import { Comment } from '../../types/index.js';
 import { UserEntity } from '../user/index.js';
+import { OfferEntity } from '../offer/index.js';
 
 @modelOptions({
   schemaOptions: {
@@ -30,13 +31,20 @@ export class CommentEntity extends defaultClasses.TimeStamps {
   })
   public userId!: Ref<UserEntity>;
 
+  @prop({
+    ref: OfferEntity,
+    required: true,
+  })
+  public offerId!: Ref<OfferEntity>;
+
   constructor(commentData: Comment) {
     super();
-    const { text, publicationDate, rating, userId } = commentData;
+    const { text, publicationDate, rating, userId, offerId } = commentData;
     this.text = text;
     this.publicationDate = publicationDate;
     this.rating = rating;
     this.userId = userId as unknown as Ref<UserEntity>;
+    this.offerId = offerId as unknown as Ref<OfferEntity>;
   }
 }
 

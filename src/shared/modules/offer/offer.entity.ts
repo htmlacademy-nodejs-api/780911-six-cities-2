@@ -12,7 +12,7 @@ import {
   PropertyFeature,
   Offer,
 } from '../../types/index.js';
-import { CommentEntity } from '../comment/comment.entity.js';
+// import { CommentEntity } from '../comment/comment.entity.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
@@ -84,8 +84,11 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public coordinates!: [number, number];
 
-  @prop({ ref: () => CommentEntity, default: [] })
-  public comments!: Array<Ref<CommentEntity>>;
+  // @prop({ ref: () => CommentEntity, default: [] })
+  // public comments!: Array<Ref<CommentEntity>>;
+
+  @prop({ required: true })
+  public commentsCount!: number;
 
   constructor(offerData: Offer) {
     super();
@@ -105,6 +108,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     this.features = offerData.features ?? [];
     this.userId = offerData.userId as unknown as Ref<UserEntity>;
     this.coordinates = offerData.coordinates;
+    this.commentsCount = offerData.commentCount;
   }
 }
 

@@ -17,4 +17,5 @@ export class UpdateOfferDTO {
   public features?: Array<PropertyFeature>;
   public userId?: string;
   public coordinates?: [number, number];
+  commentsCount?: number;
 }

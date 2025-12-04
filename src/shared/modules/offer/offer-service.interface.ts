@@ -2,7 +2,7 @@ import { DocumentType } from '@typegoose/typegoose';
 import { CreateOfferDTO } from './dto/create-offer.dto.js';
 import { OfferEntity } from './offer.entity.js';
 import { UpdateOfferDTO } from './dto/update-offer.dto.js';
-import { CommentEntity } from '../comment/comment.entity.js';
+// import { CommentEntity } from '../comment/comment.entity.js';
 import { City } from '../../types/index.js';
 
 export interface OfferService {
@@ -14,9 +14,9 @@ export interface OfferService {
     dto: UpdateOfferDTO
   ): Promise<DocumentType<OfferEntity> | null>;
   deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
-  findComments(
-    offerId: string
-  ): Promise<Array<DocumentType<CommentEntity> | null>>;
+  // findComments(
+  //   offerId: string
+  // ): Promise<Array<DocumentType<CommentEntity> | null>>;
   findPremium(
     city: City,
     limit?: number
