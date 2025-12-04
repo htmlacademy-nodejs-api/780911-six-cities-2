@@ -19,3 +19,5 @@ export class CreateOfferDTO {
   public coordinates!: [number, number];
   public commentCount!: number;
 }
+// try to use objectId
+// create own custom id and use it everywhere or create cust id helper to work with id from mongoose, mongoose has own helpers to solve this issue
