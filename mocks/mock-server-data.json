@@ -68,11 +68,11 @@
     "features": [
       "Breakfast",
       "Air conditioning",
-      "Laptop friendly workspace",
       "Baby seat",
       "Washer",
       "Towels",
-      "Fridge"
+      "Fridge",
+      "Laptop friendly workspace"
     ],
     "users": [
       {
