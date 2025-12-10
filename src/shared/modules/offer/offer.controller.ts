@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
 
 import { BaseController } from '../../../rest/index.js';
-import { City, Component, HttpMethod } from '../../types/index.js';
+import { City, Component } from '../../types/index.js';
 import { Logger } from '../../libs/Logger/index.js';
 import {
   CreateOfferDTO,
@@ -12,6 +12,7 @@ import {
   UpdateOfferDTO,
 } from '../offer/index.js';
 import { CommentService } from '../comment/index.js';
+import { HttpMethod } from '../../libs/rest/types/index.js';
 
 // TODO: add return type for methods
 // TODO: check that at the end I call something like this.ok(res, offers);

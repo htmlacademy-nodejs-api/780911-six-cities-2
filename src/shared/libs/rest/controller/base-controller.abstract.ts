@@ -1,9 +1,9 @@
 import { injectable } from 'inversify';
 import { Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Logger } from '../../shared/libs/Logger/index.js';
+import { Logger } from '../../Logger/index.js';
 import { Controller } from './controller.interface.js';
-import { Route } from '../../shared/types/route.interface.js';
+import { Route } from '../types/index.js';
 
 const DEFAULT_CONTENT_TYPE = 'application/json';
 
