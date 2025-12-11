@@ -44,18 +44,30 @@ export class RestApplication implements RestApplicationInterface {
     this.server.use('/offers', this.offerController.router);
   }
 
+  private async initMiddleware() {
+    this.server.use(express.json());
+  }
+
   async init() {
     this.logger.info(`PORT: ${this.config.get('PORT')}`);
     this.logger.info('Application initialization started');
+
     this.logger.info('DB initialization started');
     await this.initDB();
     this.logger.info('DB initialization completed');
-    this.logger.info('Server initialization started');
-    await this.initServer();
-    this.logger.info('Server initialization completed');
+
+    this.logger.info('Init app-level middleware');
+    await this.initMiddleware();
+    this.logger.info('App-level middleware initialization completed');
+
     this.logger.info('Controller initialization started');
     await this.initControllers();
     this.logger.info('Controller initialization completed');
+
+    this.logger.info('Server initialization started');
+    await this.initServer();
+    this.logger.info('Server initialization completed');
+
     this.logger.info(
       `🚀 Server started on http://localhost:${this.config.get('PORT')}`
     );

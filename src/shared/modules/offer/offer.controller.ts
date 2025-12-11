@@ -10,13 +10,14 @@ import {
   OfferCount,
   ParamOfferId,
   UpdateOfferDTO,
+  OfferRdo,
 } from '../offer/index.js';
 import { CommentService } from '../comment/index.js';
 import { HttpMethod } from '../../libs/rest/types/index.js';
+import { fillDTO } from '../../helpers/common.js';
 
 // TODO: add return type for methods
 // TODO: check that at the end I call something like this.ok(res, offers);
-// TODO: show offer
 // TODO: add RDO to everything that returns offer/offers/comments
 // TODO: add limit + pagination to offers
 
@@ -68,12 +69,15 @@ export class OfferController extends BaseController {
     const limit = Number(query.limit) || OfferCount.Default;
     const city = query.city as City;
     const offers = await this.offerService.find({ city, limit });
-    this.ok(res, offers);
+
+    const responseData = fillDTO(OfferRdo, offers);
+    this.ok(res, responseData);
   }
 
   public async create({ body }: Request, res: Response): Promise<void> {
     const offer = await this.offerService.create(body as CreateOfferDTO);
-    this.created(res, offer);
+    const responseData = fillDTO(OfferRdo, offer);
+    this.created(res, responseData);
   }
 
   public async getPremium({ query }: Request, res: Response): Promise<void> {
@@ -89,7 +93,10 @@ export class OfferController extends BaseController {
   ): Promise<void> {
     const { offerId } = params;
     const offer = await this.offerService.findById(offerId);
-    this.ok(res, offer);
+    console.log({ offer });
+    const responseData = fillDTO(OfferRdo, offer);
+    console.log({ responseData });
+    this.ok(res, responseData);
   }
 
   public async getComments({ params }: Request<ParamOfferId>, res: Response) {

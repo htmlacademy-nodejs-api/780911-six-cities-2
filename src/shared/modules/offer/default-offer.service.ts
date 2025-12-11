@@ -46,7 +46,7 @@ export class DefaultOfferService implements OfferService {
     }
     return this.offerModel
       .find(query)
-      .sort({ publicationDate: SortType.Down })
+      .sort({ publicationDate: SortType.Down, _id: 1 })
       .limit(limit)
       .populate('userId')
       .exec();
@@ -82,7 +82,7 @@ export class DefaultOfferService implements OfferService {
   }) {
     return this.offerModel
       .find({ city, premiumFlag: true })
-      .sort({ createdAt: SortType.Down })
+      .sort({ createdAt: SortType.Down, _id: 1 })
       .limit(limit)
       .populate(['userId'])
       .exec();

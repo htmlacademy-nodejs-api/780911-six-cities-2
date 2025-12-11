@@ -2,6 +2,8 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as crypto from 'node:crypto';
 import chalk from 'chalk';
+import { ClassConstructor, plainToInstance } from 'class-transformer';
+
 import { Logger } from '../libs/Logger/index.js';
 
 import {
@@ -164,3 +166,9 @@ export const requireArgs = (logger: Logger, args: Record<string, unknown>) => {
     throw new Error(`Missing required argument ${missing.join()}`);
   }
 };
+
+export function fillDTO<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
+  return plainToInstance(someDto, plainObject, {
+    excludeExtraneousValues: true,
+  });
+}

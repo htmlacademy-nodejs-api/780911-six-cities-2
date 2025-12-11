@@ -6,3 +6,4 @@ export * from './default-offer.service.js';
 export * from './offer.container.js';
 export * from './offer.constant.js';
 export * from './type/param-offerid.type.js';
+export * from './rdo/offer.rdo.js';
