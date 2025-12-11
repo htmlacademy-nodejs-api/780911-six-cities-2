@@ -76,7 +76,7 @@ export const createMockOffer = (line: string): MockOffer => {
     features,
     user,
     coordinates,
-    commentCount,
+    commentsCount,
   ] = values;
 
   const offer = {
@@ -95,7 +95,7 @@ export const createMockOffer = (line: string): MockOffer => {
     features: features.split(',') as PropertyFeature[],
     user: createMockUser(user.split(',')) as MockUser,
     coordinates: coordinates.split(',').map(Number) as [number, number],
-    commentCount: Number(commentCount),
+    commentsCount: Number(commentsCount),
   };
 
   return offer;

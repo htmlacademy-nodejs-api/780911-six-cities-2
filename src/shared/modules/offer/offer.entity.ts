@@ -105,7 +105,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     this.features = offerData.features ?? [];
     this.userId = offerData.userId as unknown as Ref<UserEntity>;
     this.coordinates = offerData.coordinates;
-    this.commentsCount = offerData.commentCount;
+    this.commentsCount = offerData.commentsCount;
   }
 }
 

@@ -21,16 +21,18 @@ export class DefaultCommentService implements CommentService {
   ) {}
   // TODO: comment creation is done by logged users only
 
-  public async updateCommentCount(offerId: string): Promise<void> {
-    const commentCount = await this.commentModel
+  public async updateCommentsCount(offerId: string): Promise<void> {
+    const result = await this.commentModel
       .aggregate([
         { $match: { offerId: new Types.ObjectId(offerId) } },
-        { $count: 'commentCount' },
+        { $count: 'commentsCount' },
       ])
       .exec();
 
+    const commentsCount = result[0]?.commentsCount ?? 0;
+    console.log({ commentsCount, result });
     await this.offerModel.findByIdAndUpdate(offerId, {
-      $set: { commentCount },
+      $set: { commentsCount },
     });
   }
 
@@ -62,7 +64,7 @@ export class DefaultCommentService implements CommentService {
     const newComment = await this.commentModel.create(dto);
 
     await this.updateOfferRating(dto.offerId);
-    await this.updateCommentCount(dto.offerId);
+    await this.updateCommentsCount(dto.offerId);
     await this.offerModel;
 
     this.logger.info(
