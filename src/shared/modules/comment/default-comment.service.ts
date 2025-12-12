@@ -54,7 +54,7 @@ export class DefaultCommentService implements CommentService {
       },
       { new: true }
     );
-    console.log({ updatedOffer });
+
     return updatedOffer?.rating;
   }
 

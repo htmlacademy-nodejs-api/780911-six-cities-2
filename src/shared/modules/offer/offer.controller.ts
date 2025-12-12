@@ -12,15 +12,15 @@ import {
   UpdateOfferDTO,
   OfferRdo,
 } from '../offer/index.js';
-import { CommentRdo, CommentService } from '../comment/index.js';
+import {
+  CommentRdo,
+  CommentService,
+  CreateCommentDTO,
+} from '../comment/index.js';
 import { HttpMethod } from '../../libs/rest/types/index.js';
 import { fillDTO } from '../../helpers/common.js';
 
-// TODO: add return type for methods
-// TODO: check that at the end I call something like this.ok(res, offers);
-// TODO: add RDO to everything that returns offer/offers/comments
-// TODO: add limit + pagination to offers
-// TODO: Add comment to a specific offer
+// TODO: add pagination to offers
 
 @injectable()
 export class OfferController extends BaseController {
@@ -64,6 +64,12 @@ export class OfferController extends BaseController {
       method: HttpMethod.Get,
       handler: this.getComments,
     });
+
+    this.addRoute({
+      path: '/:offerId/comments',
+      method: HttpMethod.Post,
+      handler: this.addComments,
+    });
   }
 
   public async index({ query }: Request, res: Response): Promise<void> {
@@ -101,27 +107,43 @@ export class OfferController extends BaseController {
     this.ok(res, responseData);
   }
 
-  public async getComments({ params }: Request<ParamOfferId>, res: Response) {
+  public async getComments(
+    { params }: Request<ParamOfferId>,
+    res: Response
+  ): Promise<void> {
     const comments = await this.offerService.findComments(params.offerId);
     const responseData = fillDTO(CommentRdo, comments);
     console.log({ comments, responseData });
     this.ok(res, responseData);
   }
 
+  public async addComments({ body }: Request, res: Response): Promise<void> {
+    const comment = await this.commentService.create(body as CreateCommentDTO);
+    const responseData = fillDTO(CommentRdo, comment);
+    this.created(res, responseData);
+  }
+
   public async update(
     { params, body }: Request<ParamOfferId, unknown, UpdateOfferDTO>,
     res: Response
-  ) {
+  ): Promise<void> {
     const { offerId } = params;
     const offer = await this.offerService.updateById({ offerId, dto: body });
-    this.ok(res, offer);
+    const responseData = fillDTO(OfferRdo, offer);
+
+    this.ok(res, responseData);
   }
 
-  public async delete({ params }: Request<ParamOfferId>, res: Response) {
+  public async delete(
+    { params }: Request<ParamOfferId>,
+    res: Response
+  ): Promise<void> {
     const { offerId } = params;
     const offer = await this.offerService.deleteById(offerId);
 
     await this.commentService.deleteByOfferId(offerId);
-    this.noContent(res, offer);
+    const responseData = fillDTO(OfferRdo, offer);
+
+    this.noContent(res, responseData);
   }
 }
