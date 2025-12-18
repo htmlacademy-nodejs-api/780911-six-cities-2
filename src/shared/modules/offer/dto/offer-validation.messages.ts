@@ -1,6 +1,6 @@
 import { City, PropertyFeature, PropertyType } from '../../../types/index.js';
 
-export const CreateOfferValidationMessage = {
+export const OfferValidationMessage = {
   title: {
     minLength: 'Minimum title length must be 10',
     maxLength: 'Maximum title length must be 100',
