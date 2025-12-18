@@ -12,16 +12,19 @@ import {
   IsArray,
   ArrayMinSize,
   ArrayMaxSize,
+  IsString,
 } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 import { City, PropertyType, PropertyFeature } from '../../../types/index.js';
 import { CreateOfferValidationMessage } from './offer-validation.messages.js';
 
 export class CreateOfferDTO {
+  @IsString({ message: CreateOfferValidationMessage.title.invalidFormat })
   @MinLength(10, { message: CreateOfferValidationMessage.title.minLength })
   @MaxLength(100, { message: CreateOfferValidationMessage.title.maxLength })
   public title!: string;
 
+  @IsString({ message: CreateOfferValidationMessage.description.invalidFormat })
   @MinLength(20, {
     message: CreateOfferValidationMessage.description.minLength,
   })
@@ -42,6 +45,7 @@ export class CreateOfferDTO {
   public city!: City;
 
   // TODO: check after adding multer
+
   public previewImage!: string;
   // TODO: check after adding multer
   @IsArray()

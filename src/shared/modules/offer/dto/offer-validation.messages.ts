@@ -4,25 +4,29 @@ export const CreateOfferValidationMessage = {
   title: {
     minLength: 'Minimum title length must be 10',
     maxLength: 'Maximum title length must be 100',
+    invalidFormat: 'Title must be string type',
   },
   description: {
     minLength: 'Minimum description length must be 20',
     maxLength: 'Maximum description length must be 1024',
+    invalidFormat: 'Description must be string type',
   },
   publicationDate: {
-    invalidFormat: 'postDate must be a valid ISO date',
+    invalidFormat: 'PostDate must be a valid ISO date',
   },
   city: {
-    invalid: `type must one of next values ${Object.values(City).join(', ')}`,
+    invalid: `City type must one of next values ${Object.values(City).join(
+      ', '
+    )}`,
   },
   previewImage: {
-    extension: 'Format should be either *.jpg or *.png',
+    extension: 'Preview image format should be either *.jpg or *.png',
   },
   propertyPhotos: {
     invalidlength: 'Should contain 6 images',
   },
   premiumFlag: {
-    type: 'Value must be boolean',
+    type: 'Premium flag value must be boolean',
   },
   rating: {
     invalidFormat: 'Rating must be an integer',
@@ -31,9 +35,9 @@ export const CreateOfferValidationMessage = {
   },
 
   propertyType: {
-    invalid: `type must one of next values ${Object.values(PropertyType).join(
-      ', '
-    )}`,
+    invalid: `Property type must one of next values ${Object.values(
+      PropertyType
+    ).join(', ')}`,
   },
   roomsNumber: {
     invalidFormat: 'Rooms number must be an integer',
@@ -60,10 +64,10 @@ export const CreateOfferValidationMessage = {
     maxValue: `Max features number is ${Object.values(PropertyFeature).length}`,
   },
   userId: {
-    invalidId: 'userId field must be a valid id',
+    invalidId: 'UserId field must be a valid id',
   },
   coordinates: {
-    invalidFormat: 'Field coordinates must be an array',
+    invalidFormat: 'Coordinates field  must be an array',
     invalidLength:
       'Coordinates array should have 2 items [latitude, longitude]',
     invalidArrayItemFormat: 'Should be an number',
