@@ -15,6 +15,7 @@ import {
 import {
   CommentRdo,
   CommentService,
+  CreateCommentDTO,
   CreateCommentRequest,
 } from '../comment/index.js';
 import {
@@ -89,7 +90,10 @@ export class OfferController extends BaseController {
       path: '/:offerId/comments',
       method: HttpMethod.Post,
       handler: this.addComment,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateDtoMiddleware(CreateCommentDTO),
+      ],
     });
   }
 
