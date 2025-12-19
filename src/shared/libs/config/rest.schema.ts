@@ -15,6 +15,7 @@ export type RestSchema = {
   ME_CONFIG_BASICAUTH_USERNAME: string;
   ME_CONFIG_BASICAUTH_PASSWORD: string;
   DB_NAME: string;
+  UPLOAD_DIRECTORY: string;
 };
 
 export const configRestSchema = convict<RestSchema>({
@@ -83,5 +84,11 @@ export const configRestSchema = convict<RestSchema>({
     format: String,
     env: 'DB_NAME',
     default: 'six-cities',
+  },
+  UPLOAD_DIRECTORY: {
+    doc: 'Directory for upload files',
+    format: String,
+    env: 'UPLOAD_DIRECTORY',
+    default: null,
   },
 });
