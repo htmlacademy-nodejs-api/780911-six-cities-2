@@ -18,6 +18,7 @@ import { RestSchema } from '../../libs/config/rest.schema.js';
 import { CreateUserRequest } from './create-user-request.js';
 
 import { LoginUserRequest } from './login-user-request.js';
+import { LoginUserDto } from './dto/login-user.dto.js';
 
 //TODO: users should be unique by email
 // TODO: default image for user. How to do
@@ -37,6 +38,7 @@ export class UserController extends BaseController {
       path: '/login',
       method: HttpMethod.Post,
       handler: this.login,
+      middlewares: [new ValidateDtoMiddleware(LoginUserDto)],
     });
 
     this.addRoute({
