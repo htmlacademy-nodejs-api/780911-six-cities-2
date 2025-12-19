@@ -2,13 +2,14 @@ import { City, PropertyFeature, PropertyType } from '../../../types/index.js';
 
 export const OfferValidationMessage = {
   title: {
-    minLength: 'Minimum title length must be 10',
-    maxLength: 'Maximum title length must be 100',
+    length:
+      'The title must contain a minimum of 10 and a maximum of 100 characters',
     invalidFormat: 'Title must be string type',
   },
   description: {
-    minLength: 'Minimum description length must be 20',
-    maxLength: 'Maximum description length must be 1024',
+    length:
+      'The description must contain a minimum of 20 and a maximum of 1024 characters',
+
     invalidFormat: 'Description must be string type',
   },
   publicationDate: {
