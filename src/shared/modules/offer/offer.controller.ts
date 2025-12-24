@@ -217,11 +217,34 @@ export class OfferController extends BaseController {
   }
 
   public async update(
-    { params, body }: Request<ParamOfferId, unknown, UpdateOfferDTO>,
+    req: Request<ParamOfferId, unknown, UpdateOfferDTO>,
     res: Response
   ): Promise<void> {
+    const { params, body } = req;
     const { offerId } = params;
-    const offer = await this.offerService.updateById({ offerId, dto: body });
+    const files = req.files as
+      | {
+          previewImage?: Express.Multer.File[];
+          propertyPhotos?: Express.Multer.File[];
+        }
+      | undefined;
+
+    const updateDto: Partial<UpdateOfferDTO> = {
+      ...body,
+    };
+
+    if (files?.previewImage?.length) {
+      updateDto.previewImage = files.previewImage[0].path;
+    }
+
+    if (files?.propertyPhotos?.length) {
+      updateDto.propertyPhotos = files.propertyPhotos.map((f) => f.path);
+    }
+
+    const offer = await this.offerService.updateById({
+      offerId,
+      dto: updateDto,
+    });
     const responseData = fillDTO(OfferRdo, offer);
 
     this.ok(res, responseData);

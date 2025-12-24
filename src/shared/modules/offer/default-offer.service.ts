@@ -8,6 +8,7 @@ import {
   Component,
   SortType,
   DocumentExists,
+  ALLOWED_UPDATE_FIELDS,
 } from '../../types/index.js';
 
 import {
@@ -68,7 +69,7 @@ export class DefaultOfferService implements OfferService, DocumentExists {
   }
 
   public async findById(offerId: string) {
-    return this.offerModel.findById(offerId).exec();
+    return this.offerModel.findById(offerId).populate('userId').exec();
   }
 
   public async updateById({
@@ -78,38 +79,20 @@ export class DefaultOfferService implements OfferService, DocumentExists {
     offerId: string;
     dto: UpdateOfferDTO;
   }) {
-    const {
-      title,
-      description,
-      publicationDate,
-      city,
-      previewImage,
-      propertyPhotos,
-      premiumFlag,
-      propertyType,
-      roomsNumber,
-      guestsNumber,
-      rentalCost,
-      features,
-      coordinates,
-    } = dto;
+    type AllowedUpdateField = (typeof ALLOWED_UPDATE_FIELDS)[number];
+
+    const updateData = Object.fromEntries(
+      Object.entries(dto).filter(
+        ([key, value]) =>
+          value !== undefined &&
+          ALLOWED_UPDATE_FIELDS.includes(key as AllowedUpdateField)
+      )
+    );
     return this.offerModel
       .findByIdAndUpdate(
         offerId,
         {
-          title,
-          description,
-          publicationDate,
-          city,
-          previewImage,
-          propertyPhotos,
-          premiumFlag,
-          propertyType,
-          roomsNumber,
-          guestsNumber,
-          rentalCost,
-          features,
-          coordinates,
+          $set: updateData,
         },
         { new: true }
       )
