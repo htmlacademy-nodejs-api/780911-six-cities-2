@@ -48,6 +48,13 @@ export class UserController extends BaseController {
     });
 
     this.addRoute({
+      path: '/logout',
+      method: HttpMethod.Post,
+      handler: this.logout,
+      middlewares: [new PrivateRouteMiddleware()],
+    });
+
+    this.addRoute({
       path: '/registrate',
       method: HttpMethod.Post,
       handler: this.create,
@@ -134,4 +141,6 @@ export class UserController extends BaseController {
 
     this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
   }
+
+  public async logout({ tokenPayload }: Request) {}
 }
