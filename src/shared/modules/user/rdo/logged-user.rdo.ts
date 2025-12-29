@@ -1,12 +1,11 @@
 /* eslint-disable indent */
-import { Expose, Transform } from 'class-transformer';
-import { ObjectId } from 'mongoose';
+import { Expose } from 'class-transformer';
+
 // TODO: check what should be contained in token
 export class LoggedUserRdo {
   @Expose()
-  @Transform((value) => value.obj._id.toString())
-  _id!: ObjectId;
+  public id!: string;
 
   @Expose()
-  public email!: string;
+  public token!: string;
 }

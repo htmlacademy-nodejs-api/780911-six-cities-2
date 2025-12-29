@@ -1,6 +1,6 @@
 import { createSecretKey } from 'node:crypto';
 import { Request, Response, NextFunction } from 'express';
-import { jwtVerify, decodeJwt } from 'jose';
+import { jwtVerify } from 'jose';
 import { StatusCodes } from 'http-status-codes';
 import { Middleware } from './index.js';
 import { TokenPayload } from '../../../modules/auth/index.js';

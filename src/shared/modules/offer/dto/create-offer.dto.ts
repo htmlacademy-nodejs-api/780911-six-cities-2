@@ -6,7 +6,7 @@ import {
   Min,
   Max,
   IsNumber,
-  IsMongoId,
+  // IsMongoId,
   IsArray,
   ArrayMinSize,
   ArrayMaxSize,
@@ -96,7 +96,6 @@ export class CreateOfferDTO {
   })
   public features!: Array<PropertyFeature>;
 
-  @IsMongoId({ message: OfferValidationMessage.userId.invalidId })
   public userId!: string;
 
   @Transform(({ value }) => (Array.isArray(value) ? value.map(Number) : value))
@@ -121,5 +120,6 @@ export class CreateOfferDTO {
   public commentsCount!: number;
 }
 
-// try to use objectId
-// create own custom id and use it everywhere or create cust id helper to work with id from mongoose, mongoose has own helpers to solve this issue
+// export type CreateOfferServiceDto = CreateOfferDTO & {
+//   userId: string;
+// };
