@@ -142,5 +142,7 @@ export class UserController extends BaseController {
     this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
   }
 
-  public async logout({ tokenPayload }: Request) {}
+  public async logout({ tokenPayload }: Request, res: Response): Promise<void> {
+    this.noContent(res, tokenPayload.id);
+  }
 }
