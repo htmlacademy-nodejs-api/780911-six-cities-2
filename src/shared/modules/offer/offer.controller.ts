@@ -25,10 +25,10 @@ import {
   DocumentExistsMiddleware,
   UploadMultipleFilesMiddleware,
   ValidateImagesMiddleware,
+  PrivateRouteMiddleware,
 } from '../../libs/rest/index.js';
 import { fillDTO } from '../../helpers/common.js';
-import { RestSchema } from '../../libs/config/rest.schema.js';
-import { Config } from '../../libs/config/config.interface.js';
+import { RestSchema, Config } from '../../libs/config/index.js';
 
 function buildOfferUpdateDTO(
   body: UpdateOfferDTO,
@@ -72,6 +72,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new UploadMultipleFilesMiddleware(
           this.configService.get('UPLOAD_DIRECTORY'),
           [
@@ -116,6 +117,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new UploadMultipleFilesMiddleware(
           this.configService.get('UPLOAD_DIRECTORY'),
           [
@@ -146,6 +148,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
@@ -166,6 +169,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Post,
       handler: this.addComment,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDTOMiddleware(CreateCommentDTO),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),

@@ -8,6 +8,8 @@ import {
   UploadFileMiddleware,
   ValidateDTOMiddleware,
   ValidateObjectIdMiddleware,
+  PrivateRouteMiddleware,
+  AuthorizationErrorMessage,
 } from '../../libs/rest/index.js';
 
 import { Logger } from '../../libs/Logger/index.js';
@@ -25,7 +27,6 @@ import { Component } from '../../types/index.js';
 import { fillDTO } from '../../helpers/common.js';
 import { AuthService } from '../auth/index.js';
 
-// TODO: login
 @injectable()
 export class UserController extends BaseController {
   constructor(
@@ -64,6 +65,7 @@ export class UserController extends BaseController {
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('userId'),
         new UploadFileMiddleware(
           this.configService.get('UPLOAD_DIRECTORY'),
@@ -102,17 +104,34 @@ export class UserController extends BaseController {
   }
 
   public async uploadAvatar(req: Request, res: Response) {
-    if (!req.file) {
+    const { file, tokenPayload } = req;
+    if (!file) {
       throw new HttpError(StatusCodes.BAD_REQUEST, 'No file uploaded');
     }
 
-    const updatedUser = await this.userService.updateAvatar(
-      req.params.userId,
-      req.file.path
-    );
+    const { id: userId } = tokenPayload;
+
+    const updatedUser = await this.userService.updateAvatar(userId, file.path);
 
     this.created(res, {
       image: updatedUser.image,
     });
+  }
+
+  public async checkAuthenticate(
+    { tokenPayload: { email } }: Request,
+    res: Response
+  ) {
+    const foundedUser = await this.userService.findByEmail(email);
+
+    if (!foundedUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        AuthorizationErrorMessage.unauthorized,
+        'UserController'
+      );
+    }
+
+    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
   }
 }
