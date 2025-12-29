@@ -7,7 +7,11 @@ import { Component } from '../shared/types/index.js';
 import { RestSchema, Config } from '../shared/libs/config/index.js';
 import { getMongoURI } from '../shared/helpers/common.js';
 import { DBClient } from '../shared/libs/db-client/index.js';
-import { Controller, ExceptionFilter } from '../shared/libs/rest/index.js';
+import {
+  Controller,
+  ExceptionFilter,
+  ParseTokenMiddleware,
+} from '../shared/libs/rest/index.js';
 import { AuthExceptionFilter } from '../shared/modules/auth/index.js';
 
 @injectable()
@@ -54,10 +58,17 @@ export class RestApplication implements RestApplicationInterface {
   }
 
   private async initMiddleware() {
+    const authenticateMiddleware = new ParseTokenMiddleware(
+      this.config.get('JWT_SECRET')
+    );
+
     this.server.use(express.json());
     this.server.use(
       '/upload',
       express.static(this.config.get('UPLOAD_DIRECTORY'))
+    );
+    this.server.use(
+      authenticateMiddleware.execute.bind(authenticateMiddleware)
     );
   }
 
