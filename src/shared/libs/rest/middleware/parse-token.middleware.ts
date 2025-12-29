@@ -1,6 +1,6 @@
 import { createSecretKey } from 'node:crypto';
 import { Request, Response, NextFunction } from 'express';
-import { jwtVerify } from 'jose';
+import { jwtVerify, decodeJwt } from 'jose';
 import { StatusCodes } from 'http-status-codes';
 import { Middleware } from './index.js';
 import { TokenPayload } from '../../../modules/auth/index.js';
@@ -11,11 +11,6 @@ function isTokenPayload(payload: unknown): payload is TokenPayload {
     typeof payload === 'object' &&
     payload !== null &&
     'email' in payload &&
-    typeof payload.email === 'string' &&
-    'firstname' in payload &&
-    typeof payload.firstname === 'string' &&
-    'lastname' in payload &&
-    typeof payload.lastname === 'string' &&
     'id' in payload &&
     typeof payload.id === 'string'
   );
@@ -26,7 +21,7 @@ export class ParseTokenMiddleware implements Middleware {
 
   public async execute(
     req: Request,
-    res: Response,
+    _res: Response,
     next: NextFunction
   ): Promise<void> {
     const authorizationHeader = req.headers?.authorization?.split(' ');
