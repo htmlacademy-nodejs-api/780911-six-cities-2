@@ -11,8 +11,10 @@ import {
   Controller,
   ExceptionFilter,
   ParseTokenMiddleware,
+  ValidationExceptionFilter,
 } from '../shared/libs/rest/index.js';
 import { AuthExceptionFilter } from '../shared/modules/auth/index.js';
+import { HttpErrorExceptionFilter } from '../shared/libs/rest/exception-filter/http.exception-filter.js';
 
 @injectable()
 export class RestApplication implements RestApplicationInterface {
@@ -28,7 +30,11 @@ export class RestApplication implements RestApplicationInterface {
     @inject(Component.ExceptionFilter)
     private readonly appExceptionFilter: ExceptionFilter,
     @inject(Component.AuthExceptionFilter)
-    private readonly authExceptionFilter: AuthExceptionFilter
+    private readonly authExceptionFilter: AuthExceptionFilter,
+    @inject(Component.HttpErrorExceptionFilter)
+    private readonly httpExceptionFilter: HttpErrorExceptionFilter,
+    @inject(Component.ValidationExceptionFilter)
+    private readonly validationExceptionError: ValidationExceptionFilter
   ) {
     this.server = express();
   }
@@ -76,6 +82,15 @@ export class RestApplication implements RestApplicationInterface {
     this.server.use(
       this.authExceptionFilter.catch.bind(this.authExceptionFilter)
     );
+
+    this.server.use(
+      this.validationExceptionError.catch.bind(this.validationExceptionError)
+    );
+
+    this.server.use(
+      this.httpExceptionFilter.catch.bind(this.httpExceptionFilter)
+    );
+
     this.server.use(
       this.appExceptionFilter.catch.bind(this.appExceptionFilter)
     );

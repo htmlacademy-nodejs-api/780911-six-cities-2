@@ -15,7 +15,7 @@ import {
   UserType,
 } from '../types/index.js';
 import { ValidationError } from 'class-validator';
-import { ValidationErrorField } from '../libs/rest/index.js';
+import { ApplicationError, ValidationErrorField } from '../libs/rest/index.js';
 
 export const generateErrorMessage = (error: unknown, message: string) => {
   console.error(chalk.red(message));
@@ -181,9 +181,15 @@ export function fillDTO<T, V>(someDTO: ClassConstructor<T>, plainObject: V) {
   });
 }
 
-export function createErrorObject(message: string) {
+export function createErrorObject(
+  errorType: ApplicationError,
+  error: string,
+  details: ValidationErrorField[] = []
+) {
   return {
-    error: message,
+    errorType,
+    error,
+    details,
   };
 }
 

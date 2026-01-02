@@ -10,7 +10,9 @@ import { MongoDbClient } from '../shared/libs/db-client/mongo.db-client.js';
 import {
   ExceptionFilter,
   AppExceptionFilter,
+  ValidationExceptionFilter,
 } from '../shared/libs/rest/index.js';
+import { HttpErrorExceptionFilter } from '../shared/libs/rest/exception-filter/http.exception-filter.js';
 
 dotenv.config();
 
@@ -37,6 +39,16 @@ export const createRestApplicationContainer = () => {
   restApplicationContainer
     .bind<ExceptionFilter>(Component.ExceptionFilter)
     .to(AppExceptionFilter)
+    .inSingletonScope();
+
+  restApplicationContainer
+    .bind<ExceptionFilter>(Component.HttpErrorExceptionFilter)
+    .to(HttpErrorExceptionFilter)
+    .inSingletonScope();
+
+  restApplicationContainer
+    .bind<ExceptionFilter>(Component.ValidationExceptionFilter)
+    .to(ValidationExceptionFilter)
     .inSingletonScope();
 
   return restApplicationContainer;
