@@ -88,9 +88,7 @@ export class UserController extends BaseController {
   ): Promise<void> {
     const userData = {
       ...body,
-      image: file?.path
-        ? file.path
-        : this.configService.get('DEFAULT_USER_IMAGE'),
+      image: file?.path,
     };
     const user = await this.userService.create(
       userData as CreateUserDTO,
