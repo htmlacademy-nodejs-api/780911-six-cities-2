@@ -5,16 +5,16 @@ import { RestApplicationInterface } from './rest.interface.js';
 import { type Logger } from '../shared/libs/Logger/index.js';
 import { Component } from '../shared/types/index.js';
 import { RestSchema, Config } from '../shared/libs/config/index.js';
-import { getMongoURI } from '../shared/helpers/common.js';
+import { getFullServerPath, getMongoURI } from '../shared/helpers/common.js';
 import { DBClient } from '../shared/libs/db-client/index.js';
 import {
   Controller,
   ExceptionFilter,
   ParseTokenMiddleware,
   ValidationExceptionFilter,
+  HttpErrorExceptionFilter,
 } from '../shared/libs/rest/index.js';
 import { AuthExceptionFilter } from '../shared/modules/auth/index.js';
-import { HttpErrorExceptionFilter } from '../shared/libs/rest/exception-filter/http.exception-filter.js';
 
 @injectable()
 export class RestApplication implements RestApplicationInterface {
@@ -121,7 +121,10 @@ export class RestApplication implements RestApplicationInterface {
     this.logger.info('Server initialization completed');
 
     this.logger.info(
-      `🚀 Server started on http://localhost:${this.config.get('PORT')}`
+      `🚀 Server started on ${getFullServerPath(
+        this.config.get('HOST'),
+        this.config.get('PORT')
+      )}`
     );
   }
 }
