@@ -86,9 +86,10 @@ export class UserController extends BaseController {
     { body, file }: CreateUserRequest,
     res: Response
   ): Promise<void> {
+    console.log({ file });
     const userData = {
       ...body,
-      image: file?.path,
+      image: file?.filename,
     };
     const user = await this.userService.create(
       userData as CreateUserDTO,
@@ -116,7 +117,10 @@ export class UserController extends BaseController {
 
     const { id: userId } = tokenPayload;
 
-    const updatedUser = await this.userService.updateAvatar(userId, file.path);
+    const updatedUser = await this.userService.updateAvatar(
+      userId,
+      file.filename
+    );
 
     this.created(res, {
       image: updatedUser.image,
