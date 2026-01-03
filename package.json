@@ -16,7 +16,7 @@
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "ts": "ts-node",
-    "start:mock-api": "npx json-server ./mocks/mock-server-data.json --port 4000"
+    "start:mock-api": "npx json-server ./mocks/mock-server-data.json --port 8000"
   },
   "devDependencies": {
     "@types/convict-format-with-validator": "^6.0.6",

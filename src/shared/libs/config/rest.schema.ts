@@ -5,6 +5,7 @@ convict.addFormats(validator);
 
 export type RestSchema = {
   PORT: number;
+  MOCK_API_PORT: number;
   SALT: string;
   DB_USER: string;
   DB_PASSWORD: string;
@@ -27,6 +28,12 @@ export const configRestSchema = convict<RestSchema>({
     format: 'port',
     env: 'PORT',
     default: 4000,
+  },
+  MOCK_API_PORT: {
+    doc: 'Port for mock api json-server',
+    format: 'port',
+    env: 'MOCK_API_PORT',
+    default: 8000,
   },
   SALT: {
     doc: 'Salt for password hash',
