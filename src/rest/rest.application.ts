@@ -62,7 +62,7 @@ export class RestApplication implements RestApplicationInterface {
 
   private async initControllers() {
     this.server.use('/offers', this.offerController.router);
-    this.server.use('/users', this.userController.router);
+    this.server.use('/', this.userController.router);
   }
 
   private async initMiddleware() {
