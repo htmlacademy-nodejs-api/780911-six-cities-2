@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 import mongoose from 'mongoose';
 import { inject, injectable } from 'inversify';
+import cors from 'cors';
 import { RestApplicationInterface } from './rest.interface.js';
 import { type Logger } from '../shared/libs/Logger/index.js';
 import { Component } from '../shared/types/index.js';
@@ -81,6 +82,8 @@ export class RestApplication implements RestApplicationInterface {
     this.server.use(
       authenticateMiddleware.execute.bind(authenticateMiddleware)
     );
+
+    this.server.use(cors());
   }
 
   private async initExceptionFilters() {
