@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 import { Token } from './utils';
+import { apiErrorHandle } from './api-error-handle';
 
 const BACKEND_URL = 'http://localhost:4000';
 const REQUEST_TIMEOUT = 5000;
@@ -23,10 +24,20 @@ export const createAPI = (): AxiosInstance => {
   });
 
   api.interceptors.response.use(
-    (response) => response,
+    (response) => {
+      console.log('API response:', {
+        url: response.config.url,
+        method: response.config.method,
+        status: response.status,
+        data: response.data,
+      });
+
+      return response;
+    },
     (error: AxiosError) => {
+      console.log({ error });
       toast.dismiss();
-      toast.warn(error.response ? error.response.data.error : error.message);
+      toast.warn(apiErrorHandle(error));
 
       return Promise.reject(error);
     }
