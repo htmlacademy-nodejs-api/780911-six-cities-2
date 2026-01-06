@@ -29,8 +29,8 @@ export class BaseOfferDTO {
   description!: string;
   publicationDate!: Date;
   city!: City;
-  previewImage!: string;
-  propertyPhotos!: string[];
+  previewImage!: File;
+  propertyPhotos!: File[];
   premiumFlag!: boolean;
   rating!: number;
   propertyType!: PropertyType;
