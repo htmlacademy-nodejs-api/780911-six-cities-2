@@ -1,4 +1,4 @@
-import { UserType } from './user-type';
+import { APIUserType } from './user-type';
 
 export default class CreateUserDto {
   public name!: string;
@@ -9,7 +9,7 @@ export default class CreateUserDto {
 
   public password!: string;
 
-  public userType!: UserType;
+  public userType!: APIUserType;
 
   public favorites!: string[];
 }

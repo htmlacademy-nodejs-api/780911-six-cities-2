@@ -12,7 +12,7 @@ import type {
   NewOffer,
 } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
-import { Token } from '../utils';
+import { adaptRegisterUserToApi, Token } from '../utils';
 
 type Extra = {
   api: AxiosInstance;
@@ -195,27 +195,26 @@ export const registerUser = createAsyncThunk<
   void,
   UserRegister,
   { extra: Extra }
->(
-  Action.REGISTER_USER,
-  async ({ email, password, name, avatar, type }, { extra }) => {
-    const { api, history } = extra;
-    const { data } = await api.post<{ id: string }>(ApiRoute.Register, {
-      email,
-      password,
-      name,
-      type,
-    });
-    if (avatar) {
-      const payload = new FormData();
-      payload.append('avatar', avatar);
+>(Action.REGISTER_USER, async (user, { extra }) => {
+  const { api, history } = extra;
+  const { avatar, ...rest } = adaptRegisterUserToApi(user);
 
-      await api.post(`/${data.id}${ApiRoute.Avatar}`, payload, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-    }
-    history.push(AppRoute.Login);
+  const formData = new FormData();
+
+  console.log('CLIENT: registerUser', rest);
+  Object.entries(rest).forEach(([key, value]) => {
+    formData.append(key, String(value));
+  });
+
+  if (avatar && avatar instanceof File) {
+    formData.append('avatar', avatar);
   }
-);
+
+  console.log({ formData });
+  const { data } = await api.post<{ id: string }>(ApiRoute.Register, formData);
+
+  history.push(AppRoute.Login);
+});
 
 export const postComment = createAsyncThunk<
   Comment,

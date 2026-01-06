@@ -1,4 +1,4 @@
-export enum UserType {
+export enum APIUserType {
   Pro = 'pro',
-  Regular = 'regular',
+  Starter = 'starter',
 }

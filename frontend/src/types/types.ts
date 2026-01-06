@@ -70,13 +70,36 @@ export type FavoriteAuth = Offer['id'];
 export type UserRegister = Omit<User, 'avatarUrl'> &
   Pick<UserAuth, 'password'> & { avatar?: File };
 
-export type ValidationErrorDetail = {
+export interface ValidationErrorDetail {
   property: string;
   messages: string[];
-};
+}
 
-export type ApiErrorResponse = {
-  errorType: string;
+export interface ValidationErrorResponse {
+  errorType: 'VALIDATION_ERROR';
   message: string;
-  details?: ValidationErrorDetail[];
-};
+  details: ValidationErrorDetail[];
+}
+
+export interface ServiceErrorResponse {
+  errorType: 'SERVICE_ERROR';
+  message: string;
+  error: string;
+}
+
+export interface NotFoundErrorResponse {
+  errorType: 'NOT_FOUND';
+  message: string;
+}
+
+export interface UnauthorizedErrorResponse {
+  errorType: 'UNAUTHORIZED';
+  message: string;
+}
+
+export type ApiErrorResponse =
+  | ValidationErrorResponse
+  | ServiceErrorResponse
+  | NotFoundErrorResponse
+  | UnauthorizedErrorResponse
+  | { message: string };
