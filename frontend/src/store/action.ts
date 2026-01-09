@@ -12,7 +12,8 @@ import type {
   NewOffer,
 } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
-import { adaptRegisterUserToApi, Token } from '../utils';
+import { adaptOffersToClient, adaptRegisterUserToApi, Token } from '../utils';
+import { APIOfferResponse } from '../dto/types';
 
 type Extra = {
   api: AxiosInstance;
@@ -43,9 +44,9 @@ export const fetchOffers = createAsyncThunk<
   { extra: Extra }
 >(Action.FETCH_OFFERS, async (_, { extra }) => {
   const { api } = extra;
-  const { data } = await api.get<Offer[]>(ApiRoute.Offers);
-
-  return data;
+  const { data } = await api.get<APIOfferResponse[]>(ApiRoute.Offers);
+  const clientData = adaptOffersToClient(data);
+  return clientData;
 });
 
 export const fetchFavoriteOffers = createAsyncThunk<

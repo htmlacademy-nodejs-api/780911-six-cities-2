@@ -1,7 +1,6 @@
 import { MAX_PERCENT_STARS_WIDTH, STARS_COUNT, UserType } from './const';
-import CreateUserDto from './dto/user/create-user.dto';
-import { APIUserType } from './dto/user/user-type';
-import { UserRegister, User } from './types/types';
+import { APIUserType, CreateUserDto, APIOfferResponse } from './dto/types';
+import { UserRegister, Offer } from './types/types';
 
 export const formatDate = (date: string) =>
   new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(
@@ -44,3 +43,45 @@ export const adaptRegisterUserToApi = (user: UserRegister): CreateUserDto => ({
   userType: user.type === UserType.Pro ? APIUserType.Pro : APIUserType.Starter,
   favorites: [],
 });
+
+export const adaptOffersToClient = (
+  offers: APIOfferResponse[],
+  userFavorites?: string[]
+): Offer[] => {
+  return offers
+    .filter((offer: APIOfferResponse) => offer.user !== null)
+    .map((offer) => {
+      return {
+        id: offer.id,
+        price: offer.rentalCost,
+        rating: offer.rating,
+        title: offer.title,
+        isPremium: offer.premiumFlag,
+        isFavorite: !!userFavorites?.includes(offer.id),
+        city: {
+          name: offer.city,
+          location: {
+            latitude: offer.coordinates[0],
+            longitude: offer.coordinates[1],
+          },
+        },
+        location: {
+          latitude: offer.coordinates[0],
+          longitude: offer.coordinates[1],
+        },
+        previewImage: offer.previewImage,
+        type: offer.propertyType,
+        bedrooms: offer.roomsNumber,
+        description: offer.description,
+        goods: offer.features,
+        host: {
+          name: offer.user.name,
+          avatarUrl: offer.user.avatar,
+          type: offer.user.userType === 'pro' ? UserType.Pro : UserType.Regular,
+          email: offer.user.email,
+        },
+        images: offer.propertyPhotos,
+        maxAdults: offer.guestsNumber,
+      };
+    });
+};
