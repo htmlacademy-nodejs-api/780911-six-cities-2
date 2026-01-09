@@ -8,10 +8,6 @@ export const apiErrorHandle = (error: AxiosError) => {
   }
 
   const data = error.response.data as ApiErrorResponse;
-  console.log('apiErrorHandle');
-  console.log({ data });
-  console.log('------------------');
-
   if (!('errorType' in data)) {
     return data.message;
   }

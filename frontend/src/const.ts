@@ -49,7 +49,7 @@ export enum ApiRoute {
   Avatar = '/avatar',
   Comments = '/comments',
   Favorite = '/favorites',
-  Premium = '/premium',
+  Premium = '/offers/premium',
 }
 
 export enum AuthorizationStatus {
@@ -67,7 +67,7 @@ export enum Sorting {
 
 export enum UserType {
   Pro = 'pro',
-  Regular = 'regular'
+  Regular = 'regular',
 }
 
 export enum StoreSlice {

@@ -25,13 +25,6 @@ export const createAPI = (): AxiosInstance => {
 
   api.interceptors.response.use(
     (response) => {
-      console.log('API response:', {
-        url: response.config.url,
-        method: response.config.method,
-        status: response.status,
-        data: response.data,
-      });
-
       return response;
     },
     (error: AxiosError) => {
