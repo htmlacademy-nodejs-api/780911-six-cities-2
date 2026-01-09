@@ -44,44 +44,49 @@ export const adaptRegisterUserToApi = (user: UserRegister): CreateUserDto => ({
   favorites: [],
 });
 
+export const adaptOfferToClient = (
+  offer: APIOfferResponse,
+  userFavorites?: string[]
+): Offer => {
+  return {
+    id: offer._id,
+    price: offer.rentalCost,
+    rating: offer.rating,
+    title: offer.title,
+    isPremium: offer.premiumFlag,
+    isFavorite: !!userFavorites?.includes(offer._id),
+    city: {
+      name: offer.city,
+      location: {
+        latitude: offer.coordinates[0],
+        longitude: offer.coordinates[1],
+      },
+    },
+    location: {
+      latitude: offer.coordinates[0],
+      longitude: offer.coordinates[1],
+    },
+    previewImage: offer.previewImage,
+    type: offer.propertyType,
+    bedrooms: offer.roomsNumber,
+    description: offer.description,
+    goods: offer.features,
+    host: {
+      name: offer.user.name,
+      avatarUrl: offer.user.avatar,
+      type: offer.user.userType === 'pro' ? UserType.Pro : UserType.Regular,
+      email: offer.user.email,
+    },
+    images: offer.propertyPhotos,
+    maxAdults: offer.guestsNumber,
+  };
+};
+
 export const adaptOffersToClient = (
   offers: APIOfferResponse[],
   userFavorites?: string[]
 ): Offer[] => {
   return offers
     .filter((offer: APIOfferResponse) => offer.user !== null)
-    .map((offer) => {
-      return {
-        id: offer.id,
-        price: offer.rentalCost,
-        rating: offer.rating,
-        title: offer.title,
-        isPremium: offer.premiumFlag,
-        isFavorite: !!userFavorites?.includes(offer.id),
-        city: {
-          name: offer.city,
-          location: {
-            latitude: offer.coordinates[0],
-            longitude: offer.coordinates[1],
-          },
-        },
-        location: {
-          latitude: offer.coordinates[0],
-          longitude: offer.coordinates[1],
-        },
-        previewImage: offer.previewImage,
-        type: offer.propertyType,
-        bedrooms: offer.roomsNumber,
-        description: offer.description,
-        goods: offer.features,
-        host: {
-          name: offer.user.name,
-          avatarUrl: offer.user.avatar,
-          type: offer.user.userType === 'pro' ? UserType.Pro : UserType.Regular,
-          email: offer.user.email,
-        },
-        images: offer.propertyPhotos,
-        maxAdults: offer.guestsNumber,
-      };
-    });
+    .map((offer) => adaptOfferToClient(offer));
 };

@@ -66,7 +66,7 @@ export type APIUpdateOfferDto = APIBaseOfferDTO & {
 };
 
 export type APIOfferResponse = APIBaseOfferDTO & {
-  id: string;
+  _id: string;
   previewImage: string;
   propertyPhotos: string[];
   user: {

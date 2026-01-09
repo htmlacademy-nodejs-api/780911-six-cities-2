@@ -12,7 +12,12 @@ import type {
   NewOffer,
 } from '../types/types';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
-import { adaptOffersToClient, adaptRegisterUserToApi, Token } from '../utils';
+import {
+  adaptOffersToClient,
+  adaptOfferToClient,
+  adaptRegisterUserToApi,
+  Token,
+} from '../utils';
 import { APIOfferResponse } from '../dto/types';
 
 type Extra = {
@@ -68,9 +73,13 @@ export const fetchOffer = createAsyncThunk<
   const { api, history } = extra;
 
   try {
-    const { data } = await api.get<Offer>(`${ApiRoute.Offers}/${id}`);
+    const { data } = await api.get<APIOfferResponse>(
+      `${ApiRoute.Offers}/${id}`
+    );
 
-    return data;
+    const clientData = adaptOfferToClient(data);
+    console.log({ data, clientData });
+    return clientData;
   } catch (error) {
     const axiosError = error as AxiosError;
 
