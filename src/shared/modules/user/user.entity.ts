@@ -8,7 +8,7 @@ import {
 
 import { User, UserType } from '../../types/index.js';
 import { createSHA256 } from '../../helpers/common.js';
-import { DEFAULT_USER_AVATAR } from './user.constant.js';
+import { DEFAULT_USER_FILE } from './user.constant.js';
 
 export interface UserEntity extends defaultClasses.Base {}
 
@@ -51,7 +51,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
 
     this.email = userData.email;
     this.name = userData.name;
-    this.avatar = userData.avatar ?? DEFAULT_USER_AVATAR;
+    this.avatar = userData.avatar ?? DEFAULT_USER_FILE;
     this.userType = userData.userType ?? 'starter';
     this.favorites = [];
   }
