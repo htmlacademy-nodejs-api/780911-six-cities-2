@@ -461,13 +461,11 @@ curl --location --request POST 'http://localhost:4000/logout' \
 
 - Создать комментарий
 
-````
-curl --location --request POST 'http://localhost:4000/offers/<OFFER_ID>/comments' \
+```
+curl --location 'http://localhost:4000/offers/69610404dee4835074d6dc8b/comments' \
 --header 'Content-Type: application/json' \
---data-raw '{
-  "userId": "6329c3d6a04ab1061c6425ea",
-  "offerId": "6329c3d6a04ab1061c6425ea",
-  "text": "looks nice",
-  "rating": 4
-}' ```
-````
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAcmVha3Rvci5jb20iLCJpZCI6IjY5NjBmMjIwOTc3OGIzNzZlOTdkYjA3NCIsImlhdCI6MTc2ODIyNTI5MSwiZXhwIjoxNzY4Mzk4MDkxfQ.JX9VJ9S6LkeJf49tRweGf-0w2SFRUhaEur9Uw_G7CRA' \
+--data '{"text": "test comment",
+"rating": 4
+}'
+```
