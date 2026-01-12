@@ -28,8 +28,6 @@ export class CreateOfferDTO {
   })
   public description!: string;
 
-  // public publicationDate!: Date;
-
   @IsEnum(City, {
     message: OfferValidationMessage.city.invalid,
   })
@@ -48,14 +46,6 @@ export class CreateOfferDTO {
   @Type(() => Boolean)
   public premiumFlag!: boolean;
 
-  // favorite_flag!: '';
-  // @Type(() => Number)
-  // @IsNumber(
-  //   { allowNaN: false, allowInfinity: false, maxDecimalPlaces: 1 },
-  //   { message: OfferValidationMessage.rating.invalidFormat }
-  // )
-  // @Min(1, { message: OfferValidationMessage.rating.minValue })
-  // @Max(5, { message: OfferValidationMessage.rating.maxValue })
   public rating!: number;
 
   @IsEnum(PropertyType, {

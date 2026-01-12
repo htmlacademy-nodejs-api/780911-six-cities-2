@@ -28,7 +28,6 @@ import { Component } from '../../types/index.js';
 import { fillDTO } from '../../helpers/common.js';
 import { AuthService } from '../auth/index.js';
 import { PathTransformerInterface } from '../../libs/rest/transform/index.js';
-import { LoggerMiddleware } from '../../libs/rest/middleware/loggerMiddleware.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -48,11 +47,7 @@ export class UserController extends BaseController {
       path: '/login',
       method: HttpMethod.Post,
       handler: this.login,
-      middlewares: [
-        new LoggerMiddleware(),
-        new ValidateDTOMiddleware(LoginUserDTO),
-        new LoggerMiddleware(),
-      ],
+      middlewares: [new ValidateDTOMiddleware(LoginUserDTO)],
     });
 
     this.addRoute({

@@ -31,7 +31,6 @@ import { fillDTO } from '../../helpers/common.js';
 import { RestSchema, Config } from '../../libs/config/index.js';
 import { UserService } from '../user/index.js';
 import { PathTransformerInterface } from '../../libs/rest/transform/index.js';
-import { LoggerMiddleware } from '../../libs/rest/middleware/loggerMiddleware.js';
 
 function buildOfferUpdateDTO(
   body: UpdateOfferDTO,
@@ -76,10 +75,8 @@ export class OfferController extends BaseController {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
-        new LoggerMiddleware(),
         new PrivateRouteMiddleware(),
         new ValidateDTOMiddleware(CreateOfferDTO),
-        new LoggerMiddleware(),
       ],
     });
     // GET /offers/premium?city=Paris&limit=10
