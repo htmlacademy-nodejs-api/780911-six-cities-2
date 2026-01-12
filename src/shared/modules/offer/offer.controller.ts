@@ -183,10 +183,14 @@ export class OfferController extends BaseController {
     });
   }
 
-  public async index({ query }: Request, res: Response): Promise<void> {
+  public async index(
+    { query, tokenPayload }: Request,
+    res: Response
+  ): Promise<void> {
     const limit = Number(query.limit) || OfferCount.Default;
     const city = query.city as City;
-    const offers = await this.offerService.find({ city, limit });
+    const userId = tokenPayload?.id;
+    const offers = await this.offerService.find({ city, limit, userId });
 
     const responseData = fillDTO(OfferRDO, offers);
     this.ok(res, responseData);

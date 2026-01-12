@@ -54,6 +54,9 @@ export class OfferRDO {
   public commentsCount!: number;
 
   @Expose()
+  public isFavorite!: boolean;
+
+  @Expose()
   @Transform(({ obj }) => {
     if (!obj.userId) {
       return null;

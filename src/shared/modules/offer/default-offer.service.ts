@@ -56,20 +56,36 @@ export class DefaultOfferService implements OfferService, DocumentExists {
   public async find({
     city,
     limit = OfferCount.Default,
+    userId,
   }: {
     city: City;
     limit?: number;
+    userId?: string;
   }) {
     const query: Partial<Record<'city', City>> = {};
+    let favorites: string[] = [];
     if (city) {
       query.city = city;
     }
-    return this.offerModel
+
+    if (userId) {
+      const user = await this.userModel.findById(userId).lean();
+      favorites = user?.favorites ?? [];
+    }
+
+    console.log({ favorites });
+    const offers = await this.offerModel
       .find(query)
       .sort({ publicationDate: SortType.Down, _id: 1 })
       .limit(limit)
       .populate('userId')
+      .lean()
       .exec();
+
+    return offers.map((offer) => ({
+      ...offer,
+      isFavorite: favorites.includes(offer._id.toString()),
+    }));
   }
 
   public async findById(offerId: string) {

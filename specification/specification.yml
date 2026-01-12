@@ -561,6 +561,10 @@ components:
           type: boolean
           example: true
 
+        isFavorite:
+          type: boolean
+          example: true
+
         rating:
           type: number
           example: 4.5
