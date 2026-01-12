@@ -93,9 +93,6 @@ export class UpdateOfferDTO {
   })
   public features?: Array<PropertyFeature>;
 
-  // @IsMongoId({ message: OfferValidationMessage.userId.invalidId })
-  // public userId!: string;
-
   @IsOptional()
   @Transform(({ value }) => (Array.isArray(value) ? value.map(Number) : value))
   @IsArray({ message: OfferValidationMessage.coordinates.invalidFormat })

@@ -12,7 +12,6 @@ import {
   PropertyFeature,
   Offer,
 } from '../../types/index.js';
-// import { CommentEntity } from '../comment/comment.entity.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
@@ -50,7 +49,6 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public premiumFlag!: boolean;
 
-  // favorite_flag: '';
   @prop({ required: true })
   public rating!: number;
 

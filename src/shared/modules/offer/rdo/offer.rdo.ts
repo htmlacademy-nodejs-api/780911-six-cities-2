@@ -29,7 +29,6 @@ export class OfferRdo {
   @Expose()
   public premiumFlag!: boolean;
 
-  // favorite_flag!: '';
   @Expose()
   public rating!: number;
 

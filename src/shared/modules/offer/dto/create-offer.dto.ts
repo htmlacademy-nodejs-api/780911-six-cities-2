@@ -1,5 +1,4 @@
 import {
-  // IsDateString,
   IsEnum,
   IsBoolean,
   IsInt,
@@ -105,8 +104,4 @@ export class CreateOfferDTO {
     }
   )
   public coordinates!: [number, number];
-
-  // @Type(() => Number)
-  // @IsInt({ message: OfferValidationMessage.commentsCount.invalidFormat })
-  // public commentsCount!: number;
 }

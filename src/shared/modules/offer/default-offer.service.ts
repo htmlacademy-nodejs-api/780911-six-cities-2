@@ -53,7 +53,6 @@ export class DefaultOfferService implements OfferService, DocumentExists {
     return res;
   }
 
-  // add pagination, read about differnt types of pagiantions and pagination optimisation
   public async find({
     city,
     limit = OfferCount.Default,

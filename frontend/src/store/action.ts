@@ -253,12 +253,10 @@ export const postFavorite = createAsyncThunk<
   try {
     const token = Token.get();
     if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // decode JWT payload
-      console.log('User ID from token:', payload.id);
+      const payload = JSON.parse(atob(token.split('.')[1]));
     }
 
     const { data } = await api.post(`/offers/${id}${ApiRoute.Favorite}`);
-    console.log('FAV', { id, data });
     return data;
   } catch (error) {
     const axiosError = error as AxiosError;
