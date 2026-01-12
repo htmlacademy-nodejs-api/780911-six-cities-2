@@ -68,6 +68,7 @@ export class ImportCommand implements Command {
       const user = await this.findOrCreateUser(offerDTO.user);
       await this.createOffer({
         ...offerDTO,
+        rating: offerDTO.rating ?? 0,
         userId: user._id.toString(),
       });
     })();
