@@ -60,6 +60,12 @@ export const fetchFavoriteOffers = createAsyncThunk<
   undefined,
   { extra: Extra }
 >(Action.FETCH_FAVORITE_OFFERS, async (_, { extra }) => {
+  const token = Token.get();
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    console.log({ payload });
+  }
+
   const { api } = extra;
   const { data } = await api.get<Offer[]>(ApiRoute.Favorite);
 

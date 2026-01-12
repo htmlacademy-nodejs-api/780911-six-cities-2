@@ -31,4 +31,6 @@ export interface UserService {
   }): Promise<DocumentType<UserEntity>>;
 
   removeFavoriteFromMany(offerId: string): Promise<void>;
+
+  getFavorites({ userId }: { userId: string }): any;
 }

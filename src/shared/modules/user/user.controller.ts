@@ -23,6 +23,7 @@ import {
   UserRdo,
   CreateUserDTO,
   LoggedUserRdo,
+  FavoriteRDO,
 } from './index.js';
 import { Component } from '../../types/index.js';
 import { fillDTO } from '../../helpers/common.js';
@@ -71,7 +72,7 @@ export class UserController extends BaseController {
     });
 
     this.addRoute({
-      path: 'users/:userId/avatar',
+      path: '/users/:userId/avatar',
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
@@ -84,6 +85,16 @@ export class UserController extends BaseController {
         new ValidateImagesMiddleware([
           { name: 'avatar', maxCount: 1, isRequired: true },
         ]),
+      ],
+    });
+
+    this.addRoute({
+      path: '/users/:userId/favorites',
+      method: HttpMethod.Get,
+      handler: this.getFavorites,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('userId'),
       ],
     });
   }
@@ -151,5 +162,13 @@ export class UserController extends BaseController {
 
   public async logout({ tokenPayload }: Request, res: Response): Promise<void> {
     this.noContent(res, tokenPayload.id);
+  }
+
+  public async getFavorites(req: Request, res: Response) {
+    const { tokenPayload } = req;
+    const { id } = tokenPayload;
+    const favorites = await this.userService.getFavorites({ userId: id });
+
+    this.ok(res, fillDTO(FavoriteRDO, favorites));
   }
 }
