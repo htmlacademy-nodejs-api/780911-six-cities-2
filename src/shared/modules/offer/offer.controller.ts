@@ -8,7 +8,7 @@ import {
   OfferCount,
   ParamOfferId,
   UpdateOfferDTO,
-  OfferRdo,
+  OfferRDO,
   CreateOfferRequest,
   CreateOfferDTO,
 } from '../offer/index.js';
@@ -188,7 +188,7 @@ export class OfferController extends BaseController {
     const city = query.city as City;
     const offers = await this.offerService.find({ city, limit });
 
-    const responseData = fillDTO(OfferRdo, offers);
+    const responseData = fillDTO(OfferRDO, offers);
     this.ok(res, responseData);
   }
 
@@ -201,7 +201,7 @@ export class OfferController extends BaseController {
     };
 
     const offer = await this.offerService.create(offerData);
-    const responseData = fillDTO(OfferRdo, offer);
+    const responseData = fillDTO(OfferRDO, offer);
     this.created(res, responseData);
   }
 
@@ -209,7 +209,7 @@ export class OfferController extends BaseController {
     const city = query.city as City;
     const limit = Number(query.limit) || OfferCount.Default;
     const offers = await this.offerService.findPremium({ city, limit });
-    const responseData = fillDTO(OfferRdo, offers);
+    const responseData = fillDTO(OfferRDO, offers);
     this.ok(res, responseData);
   }
 
@@ -220,7 +220,7 @@ export class OfferController extends BaseController {
     const { offerId } = params;
     const offer = await this.offerService.findById(offerId);
 
-    const responseData = fillDTO(OfferRdo, offer);
+    const responseData = fillDTO(OfferRDO, offer);
 
     this.ok(res, responseData);
   }
@@ -276,7 +276,7 @@ export class OfferController extends BaseController {
       userId,
       dto: updateDTO,
     });
-    const responseData = fillDTO(OfferRdo, offer);
+    const responseData = fillDTO(OfferRDO, offer);
 
     this.ok(res, responseData);
   }
@@ -291,7 +291,7 @@ export class OfferController extends BaseController {
 
     await this.commentService.deleteByOfferId(offerId);
     await this.userService.removeFavoriteFromMany(offerId);
-    const responseData = fillDTO(OfferRdo, offer);
+    const responseData = fillDTO(OfferRDO, offer);
 
     this.noContent(res, responseData);
   }

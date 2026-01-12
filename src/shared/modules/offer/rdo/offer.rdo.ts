@@ -3,7 +3,7 @@ import { ObjectId } from 'mongoose';
 import { UserRdo } from '../../user/index.js';
 
 /* eslint-disable indent */
-export class OfferRdo {
+export class OfferRDO {
   @Expose()
   @Transform((value) => value.obj._id.toString())
   _id!: ObjectId;
