@@ -299,6 +299,27 @@ paths:
         '401':
           description: Пользователь не авторизован
 
+  /users/{userId}/favorites:
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    get:
+      tags:
+        - users
+      summary: Получение списка избранных предложений пользователя
+      description: Возвращает список объявлений, добавленных пользователем в избранное.
+      responses:
+        '200':
+          description: Список избранных объявлений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/favoriteOffer'
+        '401':
+          description: Пользователь не авторизован
+        '404':
+          description: Пользователь с указанным ID не найден
   /logout:
     post:
       tags:
@@ -506,6 +527,47 @@ components:
           maxItems: 2
           items:
             type: number
+
+    favoriteOffer:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        title:
+          type: string
+          example: Charming Studio near central railway station
+
+        propertyType:
+          $ref: '#/components/schemas/propertyType'
+
+        rentalCost:
+          type: number
+          example: 120
+
+        publicationDate:
+          type: string
+          format: date-time
+
+        city:
+          $ref: '#/components/schemas/city'
+
+        previewImage:
+          type: string
+          example: /images/paris-studio.jpg
+
+        premiumFlag:
+          type: boolean
+          example: true
+
+        rating:
+          type: number
+          example: 4.5
+
+        commentsCount:
+          type: integer
+          example: 5
 
     userType:
       type: string

@@ -405,6 +405,13 @@ curl --location --request DELETE 'http://localhost:4000/offers/6953a1a74d0e093cc
 --header 'Authorization: Bearer <TOKEN>'
 ```
 
+- Получить список избранных предложений
+
+```
+curl --location 'http://localhost:4000/users/6960f2209778b376e97db074/favorites' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAcmVha3Rvci5jb20iLCJpZCI6IjY5NjBmMjIwOTc3OGIzNzZlOTdkYjA3NCIsImlhdCI6MTc2ODIyNTI5MSwiZXhwIjoxNzY4Mzk4MDkxfQ.JX9VJ9S6LkeJf49tRweGf-0w2SFRUhaEur9Uw_G7CRA'
+```
+
 - Добавить объявление в избранное
 
 ````
