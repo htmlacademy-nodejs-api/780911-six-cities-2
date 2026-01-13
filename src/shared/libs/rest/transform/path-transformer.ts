@@ -53,49 +53,58 @@ export class PathTransformer implements PathTransformerInterface {
 
   public execute(data: Record<string, unknown>): Record<string, unknown> {
     const stack = [data];
+    const visited = new WeakSet<object>();
 
     while (stack.length > 0) {
       const current = stack.pop();
+      if (!current || typeof current !== 'object') continue;
+
+      if (visited.has(current)) continue;
+      visited.add(current);
 
       for (const key in current) {
-        if (Object.hasOwn(current, key)) {
-          const value = current[key];
+        if (!Object.hasOwn(current, key)) continue;
 
-          if (
-            this.isStaticProperty(key) &&
-            typeof value === 'string' &&
-            this.hasDefaultImage(value)
-          ) {
-            current[key] = `${getFullServerPath(
-              this.serverHost,
-              this.serverPort
-            )}${this.rootPath(value)}/${value}`;
-          }
+        const value = current[key];
 
-          if (Array.isArray(value)) {
-            if (this.isStaticProperty(key)) {
-              current[key] = value.map(
-                (item) =>
-                  `${getFullServerPath(
+        if (
+          this.isStaticProperty(key) &&
+          typeof value === 'string' &&
+          this.hasDefaultImage(value)
+        ) {
+          current[key] = `${getFullServerPath(
+            this.serverHost,
+            this.serverPort
+          )}${this.rootPath(value)}/${value}`;
+
+          continue;
+        }
+        if (Array.isArray(value)) {
+          if (this.isStaticProperty(key)) {
+            current[key] = value.map((item) =>
+              this.hasDefaultImage(item)
+                ? `${getFullServerPath(
                     this.serverHost,
                     this.serverPort
                   )}${this.rootPath(item)}/${item}`
-              );
-            } else {
-              for (const item of value) {
-                if (isPlainObject(item)) {
-                  stack.push(item);
-                }
+                : item
+            );
+          } else {
+            for (const item of value) {
+              if (isPlainObject(item)) {
+                stack.push(item);
               }
-              continue;
             }
-          } else if (isPlainObject(value)) {
-            stack.push(value);
-            continue;
           }
+          continue;
+        }
+
+        if (isPlainObject(value)) {
+          stack.push(value);
         }
       }
     }
+
     return data;
   }
 }
