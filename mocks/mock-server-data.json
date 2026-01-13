@@ -77,61 +77,6 @@
       "passwords": ["qwerty123", "password123"],
       "userTypes": ["pro", "starter"]
     },
-    "users": [
-      {
-        "name": "Sophie Martin",
-        "email": "sophie.martin@example.com",
-        "avatar": "sophie.jpg",
-        "password": "securepassword123",
-        "userType": "pro"
-      },
-      {
-        "name": "Lukas Weber",
-        "email": "lukas.weber@example.com",
-        "avatar": "lukas.jpg",
-        "password": "password456",
-        "userType": "starter"
-      },
-      {
-        "name": "Marie Dupont",
-        "email": "marie.dupont@example.com",
-        "avatar": "marie.jpg",
-        "password": "securepass321",
-        "userType": "pro"
-      },
-      {
-        "name": "Jan de Vries",
-        "email": "jan.devries@example.com",
-        "avatar": "jan.jpg",
-        "password": "amsterdam123",
-        "userType": "starter"
-      },
-      {
-        "name": "Katrin Müller",
-        "email": "katrin.mueller@example.com",
-        "avatar": "katrin.jpg",
-        "password": "hotelpass789",
-        "userType": "pro"
-      },
-      {
-        "name": "Sebastian Koch",
-        "email": "sebastian.koch@example.com",
-        "avatar": "sebastian.jpg",
-        "password": "luxsuite999"
-      },
-      {
-        "name": "Thomas Laurent",
-        "email": "thomas.laurent@example.com",
-        "avatar": "thomas.jpg",
-        "password": "flatroom123"
-      },
-      {
-        "name": "Anna Schmidt",
-        "email": "anna.schmidt@example.com",
-        "avatar": "anna.jpg",
-        "password": "familyhome456"
-      }
-    ],
     "coordinates": {
       "Paris": [
         [48.85661, 2.351499],
