@@ -1,4 +1,4 @@
-import { CityData, CityKey } from './city.enum.js';
+import { CityData, CityKey } from './city.js';
 import { PropertyType } from './propertyType.enum.js';
 import { PropertyFeature } from './propertyFeature.enum.js';
 import { MockUser } from './user.js';

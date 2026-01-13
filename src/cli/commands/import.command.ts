@@ -23,7 +23,7 @@ import {
   UserModel,
 } from '../../shared/modules/user/index.js';
 import { CommentModel } from '../../shared/modules/comment/comment.entity.js';
-import { CityData } from '../../shared/types/city.enum.js';
+import { CityData } from '../../shared/types/city.js';
 
 dotenv.config();
 
