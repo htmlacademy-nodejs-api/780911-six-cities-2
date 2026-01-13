@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 import { inject, injectable } from 'inversify';
 import { Component } from '../../../types/index.js';
 import { Logger } from '../../Logger/index.js';
