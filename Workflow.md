@@ -477,6 +477,11 @@ curl --location --request POST 'http://localhost:4000/logout' \
 
 - Проверка состояния пользователя.
 
+```
+curl --location 'http://localhost:4000/check-auth' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvZWxAZ21haWwuY29tIiwiaWQiOiI2OTY1ZmMwY2Q2NjMwZTU5ZDQ3M2U4ZjIiLCJpYXQiOjE3NjgyOTE0ODcsImV4cCI6MTc2ODQ2NDI4N30.-htxduxYOSeVoBhH4thcw0iBXzGccSEvzmoe-PR-mQA'
+```
+
 - Получение списка премиальных предложений для города.
 
 ```
