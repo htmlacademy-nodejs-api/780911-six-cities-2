@@ -25,8 +25,17 @@ paths:
       parameters:
         - in: query
           name: city
+          description: Название города
           schema:
-            $ref: '#/components/schemas/city'
+            type: string
+            enum:
+              - Paris
+              - Cologne
+              - Brussels
+              - Amsterdam
+              - Hamburg
+              - Dusseldorf
+            example: Paris
         - in: query
           name: limit
           schema:
@@ -75,9 +84,17 @@ paths:
       parameters:
         - in: query
           name: city
-          required: true
+          description: Название города
           schema:
-            $ref: '#/components/schemas/city'
+            type: string
+            enum:
+              - Paris
+              - Cologne
+              - Brussels
+              - Amsterdam
+              - Hamburg
+              - Dusseldorf
+            example: Paris
         - in: query
           name: limit
           schema:
@@ -333,8 +350,38 @@ paths:
 components:
   schemas:
     city:
-      type: string
-      enum: [Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf]
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the city
+          enum:
+            - Paris
+            - Cologne
+            - Brussels
+            - Amsterdam
+            - Hamburg
+            - Dusseldorf
+          example: Paris
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+              description: Latitude of the city
+              example: 48.85661
+            longitude:
+              type: number
+              format: float
+              description: Longitude of the city
+              example: 2.351499
+          required:
+            - latitude
+            - longitude
+      required:
+        - name
+        - location
 
     propertyType:
       type: string
