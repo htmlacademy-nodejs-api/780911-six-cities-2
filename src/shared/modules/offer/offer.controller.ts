@@ -167,8 +167,11 @@ export class OfferController extends BaseController {
 
   public async getPremium({ query }: Request, res: Response): Promise<void> {
     const city = query.city as CityKey;
-    const limit = Number(query.limit) || OfferCount.Default;
+
+    const limit = Number(query.limit) || OfferCount.Premium;
+
     const offers = await this.offerService.findPremium({ city, limit });
+
     const responseData = fillDTO(OfferRDO, offers);
     this.ok(res, responseData);
   }

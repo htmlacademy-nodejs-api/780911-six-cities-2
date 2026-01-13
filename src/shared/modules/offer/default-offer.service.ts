@@ -20,6 +20,7 @@ import {
 } from './index.js';
 import { CommentEntity } from '../comment/index.js';
 import { UserEntity } from '../user/index.js';
+import { FilterQuery } from 'mongoose';
 
 @injectable()
 export class DefaultOfferService implements OfferService, DocumentExists {
@@ -62,10 +63,10 @@ export class DefaultOfferService implements OfferService, DocumentExists {
     limit?: number;
     userId?: string;
   }) {
-    const query: Partial<Record<'city', CityKey>> = {};
+    const query: FilterQuery<OfferEntity> = {};
     let favorites: string[] = [];
     if (city) {
-      query.city = city;
+      query['city.name'] = city;
     }
 
     if (userId) {
@@ -159,7 +160,7 @@ export class DefaultOfferService implements OfferService, DocumentExists {
     limit: number;
   }) {
     return this.offerModel
-      .find({ city, premiumFlag: true })
+      .find({ 'city.name': city, premiumFlag: true })
       .sort({ createdAt: SortType.Down, _id: 1 })
       .limit(limit)
       .populate(['userId'])
