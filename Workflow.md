@@ -366,28 +366,32 @@ curl --location 'http://localhost:4000/offers/6959849afb2409fe2e0da21a'
 
 ```
 curl --location 'http://localhost:4000/offers' \
---header 'Authorization: Bearer <TOKEN>' \
---form 'title="test upload images"' \
---form 'description="test RDO offer test RDO offer test RDO offer"' \
---form 'publicationDate="2025-12-11T00:00:00.000Z"' \
---form 'city="Paris"' \
---form 'previewImage=@"./img/preview.jpg"' \
---form 'propertyPhotos=@"./img/photo1.jpg"' \
---form 'propertyPhotos=@"./img/photo2.jpg"' \
---form 'propertyPhotos=@"./img/photo3.jpg"' \
---form 'propertyPhotos=@"./img/photo4.jpg"' \
---form 'propertyPhotos=@"./img/photo5.jpg"' \
---form 'propertyPhotos=@"./img/photo6.jpg"' \
---form 'premiumFlag="true"' \
---form 'rating="1"' \
---form 'propertyType="house"' \
---form 'roomsNumber="3"' \
---form 'guestsNumber="4"' \
---form 'rentalCost="120"' \
---form 'features="Breakfast"' \
---form 'features="Washer"' \
---form 'coordinates="52.3702"' \
---form 'coordinates="4.8952"'
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvZWxAZ21haWwuY29tIiwiaWQiOiI2OTY1ZmMwY2Q2NjMwZTU5ZDQ3M2U4ZjIiLCJpYXQiOjE3NjgyOTE0ODcsImV4cCI6MTc2ODQ2NDI4N30.-htxduxYOSeVoBhH4thcw0iBXzGccSEvzmoe-PR-mQA' \
+--data '{
+  "title": "test upload images before final check",
+  "description": "test RDO offer test RDO offer test RDO offer",
+  "publicationDate": "2025-12-11T00:00:00.000Z",
+  "city": "Paris",
+  "previewImage": "https://picsum.photos/id/1025/300/200",
+  "propertyPhotos": [
+    "https://picsum.photos/id/1/300/200",
+    "https://picsum.photos/id/2/300/200",
+    "https://picsum.photos/id/3/300/200",
+    "https://picsum.photos/id/4/300/200",
+    "https://picsum.photos/id/5/300/200",
+    "https://picsum.photos/id/6/300/200"
+    ],
+  "premiumFlag": true,
+  "rating": 1,
+  "propertyType": "house",
+  "roomsNumber": 3,
+  "guestsNumber": 4,
+  "rentalCost": 120,
+  "features": ["Breakfast", "Washer"],
+  "coordinates": [52.3702, 4.8952]
+}
+'
 ```
 
 - Обновить объявление
