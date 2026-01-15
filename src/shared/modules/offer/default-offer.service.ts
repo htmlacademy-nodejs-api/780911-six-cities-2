@@ -4,11 +4,11 @@ import { DocumentType, types } from '@typegoose/typegoose';
 import { Logger } from '../../libs/Logger/index.js';
 
 import {
-  City,
   Component,
   SortType,
   DocumentExists,
   ALLOWED_UPDATE_FIELDS,
+  CityKey,
 } from '../../types/index.js';
 
 import {
@@ -19,6 +19,8 @@ import {
   OfferCount,
 } from './index.js';
 import { CommentEntity } from '../comment/index.js';
+import { UserEntity } from '../user/index.js';
+import { FilterQuery } from 'mongoose';
 
 @injectable()
 export class DefaultOfferService implements OfferService, DocumentExists {
@@ -27,7 +29,9 @@ export class DefaultOfferService implements OfferService, DocumentExists {
     @inject(Component.OfferModel)
     private readonly offerModel: types.ModelType<OfferEntity>,
     @inject(Component.CommentModel)
-    private readonly commentModel: types.ModelType<CommentEntity>
+    private readonly commentModel: types.ModelType<CommentEntity>,
+    @inject(Component.UserModel)
+    private readonly userModel: types.ModelType<UserEntity>
   ) {}
 
   public async exists(documentId: string): Promise<boolean> {
@@ -38,6 +42,11 @@ export class DefaultOfferService implements OfferService, DocumentExists {
   }
 
   public async create(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>> {
+    const userExists = await this.userModel.exists({ _id: dto.userId });
+
+    if (!userExists) {
+      throw new Error('User does not exist or was deleted');
+    }
     const offer = new OfferEntity(dto);
 
     const res = await this.offerModel.create(offer);
@@ -45,24 +54,38 @@ export class DefaultOfferService implements OfferService, DocumentExists {
     return res;
   }
 
-  // add pagination, read about differnt types of pagiantions and pagination optimisation
   public async find({
     city,
     limit = OfferCount.Default,
+    userId,
   }: {
-    city: City;
+    city: CityKey;
     limit?: number;
+    userId?: string;
   }) {
-    const query: Partial<Record<'city', City>> = {};
+    const query: FilterQuery<OfferEntity> = {};
+    let favorites: string[] = [];
     if (city) {
-      query.city = city;
+      query['city.name'] = city;
     }
-    return this.offerModel
+
+    if (userId) {
+      const user = await this.userModel.findById(userId).lean();
+      favorites = user?.favorites ?? [];
+    }
+
+    const offers = await this.offerModel
       .find(query)
       .sort({ publicationDate: SortType.Down, _id: 1 })
       .limit(limit)
       .populate('userId')
+      .lean()
       .exec();
+
+    return offers.map((offer) => ({
+      ...offer,
+      isFavorite: favorites.includes(offer._id.toString()),
+    }));
   }
 
   public async findById(offerId: string) {
@@ -133,11 +156,11 @@ export class DefaultOfferService implements OfferService, DocumentExists {
     city,
     limit = OfferCount.Premium,
   }: {
-    city: City;
+    city: CityKey;
     limit: number;
   }) {
     return this.offerModel
-      .find({ city, premiumFlag: true })
+      .find({ 'city.name': city, premiumFlag: true })
       .sort({ createdAt: SortType.Down, _id: 1 })
       .limit(limit)
       .populate(['userId'])

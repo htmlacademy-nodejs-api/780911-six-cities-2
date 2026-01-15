@@ -7,15 +7,30 @@ import {
 } from '@typegoose/typegoose';
 import { UserEntity } from '../user/index.js';
 import {
-  City,
   PropertyType,
   PropertyFeature,
   Offer,
+  CityData,
 } from '../../types/index.js';
-// import { CommentEntity } from '../comment/comment.entity.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
+
+class CityLocation {
+  @prop({ required: true, _id: false })
+  public latitude!: number;
+
+  @prop({ required: true, _id: false })
+  public longitude!: number;
+}
+
+class CitySubDocument {
+  @prop({ required: true })
+  public name!: string;
+
+  @prop({ required: true, _id: false, type: () => CityLocation })
+  public location!: CityLocation;
+}
 
 @modelOptions({
   schemaOptions: {
@@ -32,14 +47,21 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, default: '' })
   public description!: string;
 
-  @prop({ required: true })
+  @prop()
   public publicationDate!: Date;
 
+  // @prop({
+  //   type: () => String,
+  //   enum: City,
+  // })
+  // public city!: City;
+
   @prop({
-    type: () => String,
-    enum: City,
+    required: true,
+    _id: false,
+    type: () => CitySubDocument,
   })
-  public city!: City;
+  public city!: CityData;
 
   @prop()
   public previewImage!: string;
@@ -50,7 +72,6 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public premiumFlag!: boolean;
 
-  // favorite_flag: '';
   @prop({ required: true })
   public rating!: number;
 
@@ -92,12 +113,14 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
     this.title = offerData.title;
     this.description = offerData.description ?? '';
-    this.publicationDate = offerData.publicationDate;
+    this.publicationDate = offerData.publicationDate
+      ? new Date(offerData.publicationDate)
+      : new Date();
     this.city = offerData.city;
     this.previewImage = offerData.previewImage ?? '';
     this.propertyPhotos = offerData.propertyPhotos ?? [];
     this.premiumFlag = offerData.premiumFlag;
-    this.rating = offerData.rating;
+    this.rating = offerData.rating ?? 0;
     this.propertyType = offerData.propertyType;
     this.roomsNumber = offerData.roomsNumber;
     this.guestsNumber = offerData.guestsNumber;
@@ -105,10 +128,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     this.features = offerData.features ?? [];
     this.userId = offerData.userId as unknown as Ref<UserEntity>;
     this.coordinates = offerData.coordinates;
-    this.commentsCount = offerData.commentsCount;
+    this.commentsCount = offerData.commentsCount ?? 0;
   }
 }
 
 export const OfferModel = getModelForClass(OfferEntity);
-
-//TODO: look for onion layers architecure service repository and controller

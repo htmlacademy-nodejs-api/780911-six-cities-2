@@ -1,7 +1,6 @@
 import {
   MaxLength,
   MinLength,
-  IsDateString,
   Min,
   Max,
   IsNumber,
@@ -27,14 +26,7 @@ export class CreateCommentDTO {
   @Max(5, { message: CommentValidationMessage.rating.maxValue })
   public rating!: number;
 
-  @IsDateString(
-    {},
-    { message: CommentValidationMessage.publicationDate.invalidFormat }
-  )
-  public publicationDate!: Date;
-
   public userId!: string;
 
   public offerId!: string;
 }
-//TODO: is that ok, that I removed ids from DTO

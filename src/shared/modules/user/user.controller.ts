@@ -10,6 +10,7 @@ import {
   ValidateObjectIdMiddleware,
   PrivateRouteMiddleware,
   AuthorizationErrorMessage,
+  ValidateImagesMiddleware,
 } from '../../libs/rest/index.js';
 
 import { Logger } from '../../libs/Logger/index.js';
@@ -22,10 +23,13 @@ import {
   UserRdo,
   CreateUserDTO,
   LoggedUserRdo,
+  CheckAuthUserRdo,
+  FavoriteRDO,
 } from './index.js';
 import { Component } from '../../types/index.js';
 import { fillDTO } from '../../helpers/common.js';
 import { AuthService } from '../auth/index.js';
+import { PathTransformerInterface } from '../../libs/rest/transform/index.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -34,9 +38,10 @@ export class UserController extends BaseController {
     @inject(Component.UserService) private readonly userService: UserService,
     @inject(Component.Config)
     private readonly configService: Config<RestSchema>,
-    @inject(Component.AuthService) private readonly authService: AuthService
+    @inject(Component.AuthService) private readonly authService: AuthService,
+    @inject(Component.PathTransformer) pathTranformer: PathTransformerInterface
   ) {
-    super(logger);
+    super(logger, pathTranformer);
 
     this.logger.info('Register routes for userController…');
 
@@ -48,6 +53,13 @@ export class UserController extends BaseController {
     });
 
     this.addRoute({
+      path: '/check-auth',
+      method: HttpMethod.Get,
+      handler: this.checkAuthenticate,
+      middlewares: [new PrivateRouteMiddleware()],
+    });
+
+    this.addRoute({
       path: '/logout',
       method: HttpMethod.Post,
       handler: this.logout,
@@ -55,20 +67,20 @@ export class UserController extends BaseController {
     });
 
     this.addRoute({
-      path: '/registrate',
+      path: '/register',
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
         new UploadFileMiddleware(
           this.configService.get('UPLOAD_DIRECTORY'),
-          'image'
+          'avatar'
         ),
         new ValidateDTOMiddleware(CreateUserDTO),
       ],
     });
 
     this.addRoute({
-      path: '/:userId/avatar',
+      path: '/users/:userId/avatar',
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
@@ -78,6 +90,19 @@ export class UserController extends BaseController {
           this.configService.get('UPLOAD_DIRECTORY'),
           'avatar'
         ),
+        new ValidateImagesMiddleware([
+          { name: 'avatar', maxCount: 1, isRequired: true },
+        ]),
+      ],
+    });
+
+    this.addRoute({
+      path: '/users/:userId/favorites',
+      method: HttpMethod.Get,
+      handler: this.getFavorites,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('userId'),
       ],
     });
   }
@@ -88,9 +113,7 @@ export class UserController extends BaseController {
   ): Promise<void> {
     const userData = {
       ...body,
-      image: file?.path
-        ? file.path
-        : this.configService.get('DEFAULT_USER_IMAGE'),
+      avatar: file?.filename,
     };
     const user = await this.userService.create(
       userData as CreateUserDTO,
@@ -118,10 +141,13 @@ export class UserController extends BaseController {
 
     const { id: userId } = tokenPayload;
 
-    const updatedUser = await this.userService.updateAvatar(userId, file.path);
+    const updatedUser = await this.userService.updateAvatar(
+      userId,
+      file.filename
+    );
 
     this.created(res, {
-      image: updatedUser.image,
+      avatar: updatedUser.avatar,
     });
   }
 
@@ -139,10 +165,18 @@ export class UserController extends BaseController {
       );
     }
 
-    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
+    this.ok(res, fillDTO(CheckAuthUserRdo, foundedUser));
   }
 
   public async logout({ tokenPayload }: Request, res: Response): Promise<void> {
     this.noContent(res, tokenPayload.id);
+  }
+
+  public async getFavorites(req: Request, res: Response) {
+    const { tokenPayload } = req;
+    const { id } = tokenPayload;
+    const favorites = await this.userService.getFavorites({ userId: id });
+
+    this.ok(res, fillDTO(FavoriteRDO, favorites));
   }
 }

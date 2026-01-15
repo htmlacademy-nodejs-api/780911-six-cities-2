@@ -1,9 +1,10 @@
 import { Expose, Transform } from 'class-transformer';
 import { ObjectId } from 'mongoose';
 import { UserRdo } from '../../user/index.js';
+import { CityData } from '../../../types/city.js';
 
 /* eslint-disable indent */
-export class OfferRdo {
+export class OfferRDO {
   @Expose()
   @Transform((value) => value.obj._id.toString())
   _id!: ObjectId;
@@ -18,7 +19,19 @@ export class OfferRdo {
   public publicationDate!: Date;
 
   @Expose()
-  public city!: string;
+  @Transform(({ obj }) => {
+    const { name, location } = obj.city;
+    // const { latitude, longitude } = location;
+    return {
+      name,
+      location,
+      // location: {
+      //   latitude,
+      //   longitude,
+      // },
+    };
+  })
+  public city!: CityData;
 
   @Expose()
   public previewImage!: string;
@@ -29,7 +42,6 @@ export class OfferRdo {
   @Expose()
   public premiumFlag!: boolean;
 
-  // favorite_flag!: '';
   @Expose()
   public rating!: number;
 
@@ -55,18 +67,22 @@ export class OfferRdo {
   public commentsCount!: number;
 
   @Expose()
+  public isFavorite!: boolean;
+
+  @Expose()
   @Transform(({ obj }) => {
     if (!obj.userId) {
       return null;
     }
 
-    const { _id, name, image, userType } = obj.userId;
+    const { _id, name, avatar, userType, email } = obj.userId;
 
     return {
       _id: _id?.toString(),
       name,
-      image,
+      avatar,
       userType,
+      email,
     };
   })
   public user!: UserRdo | null;
