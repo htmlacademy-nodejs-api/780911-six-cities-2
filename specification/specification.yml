@@ -53,6 +53,8 @@ paths:
                   $ref: '#/components/schemas/offer'
 
     post:
+      security:
+        - bearerAuth: []
       tags:
         - offers
       summary: Создание нового предложения
@@ -131,6 +133,8 @@ paths:
           description: Данного предложения не существует.
 
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - offers
       summary: Удаление предложения
@@ -139,6 +143,8 @@ paths:
           description: Удалено
 
     patch:
+      security:
+        - bearerAuth: []
       tags:
         - offers
       summary: Обновление предложения
@@ -177,6 +183,8 @@ paths:
                   $ref: '#/components/schemas/comment'
 
     post:
+      security:
+        - bearerAuth: []
       tags:
         - comments
       summary: Создать комментарий к предложению
@@ -200,6 +208,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/offerId'
     post:
+      security:
+        - bearerAuth: []
       tags:
         - offers
       summary: Добавить объявление в избранное
@@ -219,6 +229,8 @@ paths:
           description: Объявление с указанным ID не найдено
 
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - offers
       summary: Удалить объявление из избранного
@@ -316,10 +328,10 @@ paths:
         '401':
           description: Пользователь не авторизован
 
-  /users/{userId}/favorites:
-    parameters:
-      - $ref: '#/components/parameters/userId'
+  /favorites:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - users
       summary: Получение списка избранных предложений пользователя
@@ -339,6 +351,8 @@ paths:
           description: Пользователь с указанным ID не найден
   /logout:
     post:
+      security:
+        - bearerAuth: []
       tags:
         - users
       summary: Выход пользователя
@@ -346,6 +360,24 @@ paths:
       responses:
         '204':
           description: Пользователь вышел
+
+  /check-auth:
+    get:
+      tags:
+        - users
+      summary: Проверка авторизации пользователя
+      description: Проверяет, авторизован ли пользователь по токену
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Пользователь авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '401':
+          description: Пользователь не авторизован
 
 components:
   schemas:
@@ -743,3 +775,9 @@ components:
       schema:
         type: string
         example: 6329c3d6a04ab1061c6425ea
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

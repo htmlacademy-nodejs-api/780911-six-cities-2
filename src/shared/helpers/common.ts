@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { ValidationError } from 'class-validator';
 
-import { Logger } from '../libs/Logger/index.js';
+import { Logger } from '../libs/logger/index.js';
 
 import {
   MockOffer,
@@ -92,7 +92,7 @@ const createDBMockCity = (values: string[]): MockCityData => {
     },
   };
 };
-// TODO: uncomment city to use new city type with coordinates
+
 export function createMockOffer(line: string): MockOffer {
   const values = line.trimEnd().split('\t');
   const [

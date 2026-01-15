@@ -1,4 +1,4 @@
-import { OfferGenerator as OfferGeneratorInterface } from './OfferGenerator.interface.js';
+import { OfferGenerator as OfferGeneratorInterface } from './offer-generator.interface.js';
 import { MockOffer, UserType } from '../../types/index.js';
 import {
   getDaysAgo,

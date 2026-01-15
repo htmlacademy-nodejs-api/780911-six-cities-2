@@ -1,5 +1,5 @@
 import { createWriteStream, WriteStream } from 'node:fs';
-import { FileWriter } from './FileWriter.interface.js';
+import { FileWriter } from './file-writer.interface.js';
 import { valueToTSVString } from '../../helpers/common.js';
 
 /**

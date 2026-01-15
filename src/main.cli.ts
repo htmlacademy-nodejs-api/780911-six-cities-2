@@ -8,7 +8,7 @@ import {
   ImportCommand,
   VersionCommand,
 } from './cli/index.js';
-import { PinoLogger } from './shared/libs/Logger/PinoLogger.js';
+import { PinoLogger } from './shared/libs/logger/pino.logger.js';
 function bootstrap() {
   const cliApplication = new CLIApplication();
   const logger = new PinoLogger();

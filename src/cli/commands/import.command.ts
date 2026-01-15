@@ -1,14 +1,14 @@
 import path from 'node:path';
 import dotenv from 'dotenv';
 import { Command } from './command.interface.js';
-import { TSVFileReader } from '../../shared/libs/TSVFileReader/index.js';
+import { TSVFileReader } from '../../shared/libs/tsv-file-reader/index.js';
 import {
   generateErrorMessage,
   getMongoURI,
   requireArgs,
   createMockOffer,
 } from '../../shared/helpers/index.js';
-import { Logger } from '../../shared/libs/Logger/index.js';
+import { Logger } from '../../shared/libs/logger/index.js';
 import { DBClient, MongoDbClient } from '../../shared/libs/db-client/index.js';
 import {
   CreateOfferDTO,

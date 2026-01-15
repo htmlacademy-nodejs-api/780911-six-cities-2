@@ -7,7 +7,7 @@ import {
 } from 'pino';
 import { injectable } from 'inversify';
 
-import { Logger } from './Logger.interface.js';
+import { Logger } from './logger.interface.js';
 import { getCurrentDirectory } from '../../helpers/common.js';
 import { NodeEnv } from '../../types/index.js';
 
