@@ -1,2 +1,2 @@
-export * from './Logger.interface.js';
-export * from './PinoLogger.js';
+export * from './logger.interface.js';
+export * from './pino.logger.js';

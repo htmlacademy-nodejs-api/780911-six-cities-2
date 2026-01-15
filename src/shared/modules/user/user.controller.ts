@@ -13,7 +13,7 @@ import {
   ValidateImagesMiddleware,
 } from '../../libs/rest/index.js';
 
-import { Logger } from '../../libs/Logger/index.js';
+import { Logger } from '../../libs/logger/index.js';
 import { Config, RestSchema } from '../../libs/config/index.js';
 import {
   UserService,

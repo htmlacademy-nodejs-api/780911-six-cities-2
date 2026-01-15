@@ -1,6 +1,6 @@
 import { CityData, CityKey } from './city.js';
-import { PropertyFeature } from './propertyFeature.enum.js';
-import { PropertyType } from './propertyType.enum.js';
+import { PropertyFeature } from './property-feature.enum.js';
+import { PropertyType } from './property-type.enum.js';
 import { MockUser } from './user.js';
 
 export type MockServerData = {
